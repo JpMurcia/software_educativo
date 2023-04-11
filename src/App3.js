@@ -48,6 +48,41 @@ function App() {
     { x: 3, y: -2 },
     { x: -1, y: -1 }
   ]);
+
+  // Definimos las ecuaciones de las restricciones
+const ecuacion1 = (x) => 5 - x;
+const ecuacion2 = () => 3;
+const ecuacion3 = () => 4;
+
+// Definimos la función objetivo
+const funcionObjetivo = (x, y) => 5*x + 4*y;
+
+// Definimos la función para evaluar las restricciones
+const evaluarRestricciones = (x, y) => {
+  const restriccion1 = y <= ecuacion1(x);
+  const restriccion2 = x <= ecuacion2();
+  const restriccion3 = y <= ecuacion3();
+  return restriccion1 && restriccion2 && restriccion3;
+};
+
+// Buscamos el punto óptimo dentro de la región factible
+let maxValor = -Infinity;
+let puntoOptimo = {};
+for (let x = 0; x <= 3; x += 0.01) {
+  for (let y = 0; y <= 4; y += 0.01) {
+    if (evaluarRestricciones(x, y)) {
+      const valor = funcionObjetivo(x, y);
+      if (valor > maxValor) {
+        maxValor = valor;
+        puntoOptimo = { x, y };
+      }
+    }
+  }
+}
+
+// Imprimimos el punto óptimo y el valor máximo de la función objetivo
+console.log(`El punto óptimo es (${puntoOptimo.x}, ${puntoOptimo.y}) con un valor máximo de ${maxValor}`);
+
   useEffect(() => {
     if (geogebraReady === true) {
       const app = window.ggbApplet;
@@ -124,6 +159,43 @@ function App() {
     const gb = graphRef.current.getGgbObject();
     gb.evalCommand('Line(A,B,"myLine")');
   };
+
+
+
+//   // Definimos las ecuaciones de las restricciones
+// const ecuacion1 = (x) => 5 - x;
+// const ecuacion2 = () => 3;
+// const ecuacion3 = () => 4;
+
+// // Definimos la función objetivo
+// const funcionObjetivo = (x, y) => 5*x + 4*y;
+
+// // Definimos la función para evaluar las restricciones
+// const evaluarRestricciones = (x, y) => {
+//   const restriccion1 = y <= ecuacion1(x);
+//   const restriccion2 = x <= ecuacion2();
+//   const restriccion3 = y <= ecuacion3();
+//   return restriccion1 && restriccion2 && restriccion3;
+// };
+
+// // Buscamos el punto óptimo dentro de la región factible
+// let maxValor = -Infinity;
+// let puntoOptimo = {};
+// for (let x = 0; x <= 3; x += 0.01) {
+//   for (let y = 0; y <= 4; y += 0.01) {
+//     if (evaluarRestricciones(x, y)) {
+//       const valor = funcionObjetivo(x, y);
+//       if (valor > maxValor) {
+//         maxValor = valor;
+//         puntoOptimo = { x, y };
+//       }
+//     }
+//   }
+// }
+
+// // Imprimimos el punto óptimo y el valor máximo de la función objetivo
+// console.log(`El punto óptimo es (${puntoOptimo.x}, ${puntoOptimo.y}) con un valor máximo de ${maxValor}`);
+
 
   return (
     <div className="App">
