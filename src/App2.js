@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import p5 from 'p5';
+// import p5 from 'p5';
 
  function GraphicalMethod() {
   const canvasRef = useRef(null);
