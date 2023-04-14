@@ -1,40 +1,60 @@
-function metodoGrafico(n, funcionObjetivo, A, b, maximizar) {
-    // Definimos una función para evaluar las restricciones
-    const evaluarRestricciones = (x, y) => {
-      for (let i = 0; i < n; i++) {
-        const restriccion = A[i][0] * x + A[i][1] * y <= b[i];
-        if (!restriccion) {
-          return false;
-        }
+
+
+function metodoGraficoR(n, funcionObjetivo, A, b, maximizar, RestriccionList) {
+  // Definimos una función para evaluar las restricciones
+  console.log("RestriccionList", RestriccionList)
+
+  const evaluarRestricciones = (x, y) => {
+    for (let i = 0; i < n; i++) {
+      
+
+      switch (RestriccionList[i]) {
+        case "<":
+          return A[i][0] * x + A[i][1] * y < b[i];
+        case "<=":
+          return A[i][0] * x + A[i][1] * y <= b[i];
+        case "=":
+          return A[i][0] * x + A[i][1] * y == b[i];
+        case ">=":
+          return A[i][0] * x + A[i][1] * y >= b[i];
+        //  return restriccion;             
+        case ">":
+          return A[i][0] * x + A[i][1] * y < b[i];
+
       }
-      return true;
-    };
-  
-    // Buscamos el punto óptimo dentro de la región factible
-    let extremo = maximizar ? -Infinity : Infinity;
-    let puntoOptimo = {};
-    for (let x = 0; x <= 10; x += 0.01) {
-      for (let y = 0; y <= 10; y += 0.01) {
-        if (evaluarRestricciones(x, y)) {
-          const valor = funcionObjetivo(x, y);
-          if (maximizar && valor > extremo || !maximizar && valor < extremo) {
-            extremo = valor;
-            puntoOptimo = { x, y };
+
+    }
+    return true;
+  };
+
+  // Buscamos el punto óptimo dentro de la región factible
+  let extremo = maximizar ? -Infinity : Infinity;
+  let puntoOptimo = {};
+  let listEnteros = [];
+
+  for (let x = 0; x <= 10; x += 0.01) {
+    for (let y = 0; y <= 10; y += 0.01) {
+      if (evaluarRestricciones(x, y)) {
+        const valor = funcionObjetivo(x, y);
+        if (maximizar && valor > extremo || !maximizar && valor < extremo) {
+          extremo = valor;
+          puntoOptimo = { x, y };
+          if(Number.isInteger(x) && Number.isInteger(y)  ){
+            listEnteros.push({x1:x,x2:y})
           }
         }
       }
     }
-  
-    // Imprimimos el punto óptimo y el valor extremo de la función objetivo
-    const tipo = maximizar ? "maximización" : "minimización";
-    console.log(`El punto óptimo es (${puntoOptimo.x}, ${puntoOptimo.y}) con un valor ${tipo} de ${extremo}`);
   }
-  
 
-  const n = 3; // Número de restricciones
-const A = [[-1, 2], [1, 1], [2, 1]]; // Matriz de coeficientes de las restricciones
-const b = [4, 5, 7]; // Vector de términos independientes de las restricciones
-const funcionObjetivo = (x, y) => 5*x + 4*y; // Función objetivo
-const maximizar = true; // Indica si se quiere maximizar o minimizar la función objetivo
+  // Imprimimos el punto óptimo y el valor extremo de la función objetivo
+  const tipo = maximizar ? "maximización" : "minimización";
+  console.log(`El punto óptimo es (${puntoOptimo.x}, ${puntoOptimo.y}) con un valor ${tipo} de ${extremo}`);
+  console.log(`Tabla`);
+  console.log(listEnteros);
+}
 
-metodoGrafico(n, funcionObjetivo, A, b, maximizar);
+
+
+
+export {  metodoGraficoR }
