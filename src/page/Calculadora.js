@@ -69,7 +69,7 @@ const Calculadora = () => {
             restriccion: 1
         },
         {
-            key: 2,
+            key: 6,
             x: 4,
             y: 3,
             simbolo: "<",
@@ -192,14 +192,14 @@ const Calculadora = () => {
                 /> */}
 
                 <div justify="center" >
-                    <Form
+                    {/* <Form
                         //  {...layout} 
                         justify="center"
 
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
                         autoComplete="off"
-                    >
+                    > */}
                         {/* <Divider orientation="left">sub-element align center</Divider> */}
                         <br />
                         <br />
@@ -302,10 +302,14 @@ const Calculadora = () => {
 
 
 
-                        <Button type="primary" htmlType="submit">
+                        {/* <Button type="primary" htmlType="submit">
+                            Submit
+                        </Button> */}
+
+                        <Button type="primary" htmlType="submit" onClick={onFinish}>
                             Submit
                         </Button>
-                    </Form>
+                    {/* </Form> */}
                     <h1>Calculadoraaaa</h1>
                 </div>
 
