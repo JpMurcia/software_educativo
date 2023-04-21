@@ -61,7 +61,7 @@ const Calculadora = () => {
 
     const InitialMatriz = [
         {
-            key: 1,
+            key: 0,
             x: 5,
             y: 6,
             simbolo: "<=",
@@ -69,7 +69,7 @@ const Calculadora = () => {
             restriccion: 1
         },
         {
-            key: 6,
+            key: 1,
             x: 4,
             y: 3,
             simbolo: "<",
@@ -87,45 +87,92 @@ const Calculadora = () => {
         restriccion: 1
     }]
 
-    const handleChange = e => {
-        const { name, value, title } = e.target;
 
-        setFormData({
-            ...fromData,
-            [name]: value
-        });
-        // setMatriz([ ,
-        //     {
-        //     key:name,
-        //     [title]:value
-        // }])
-        // for(let index;data.length;index++){
-        //     if(data[index].key==name){
-        //         // data[index].key=
-        //     }
-        // }
-
-        // console.log(e);
-        console.log(name, value, title);
-        console.log(Matriz);
-    }
     const [fromData, setFormData] = useState({});
     const [Simbolo, setSimbolo] = useState(InitialSimboloRestricciones);
     const [Matriz, setMatriz] = useState(InitialMatriz);
 
+    const handleChange = (e,item) => {
+        const { name, value, title } = e.target;      
+        let matrizActual = Matriz;
+        console.log('D',matrizActual[name])
+        if (title == "x") {
+            console.log(matrizActual[name].x)
+            matrizActual[name].x=value
+        }
+        else {
+            if (title == "restriccion") {
+                console.log(matrizActual[name].restriccion)
+                matrizActual[name].restriccion=value
+            } else {
+                console.log(matrizActual[name].y)
+                matrizActual[name].y=value
+            }
 
+        }
 
-    const handleChangeSelectRestriccion = (data) => {
+        console.log(name, value, title,item);
+        console.log('Actual',matrizActual);
+
+        console.log(Matriz);
+    }
+
+    const handleChangeSelectRestriccion = (data,item) => {
         console.log('selected', { data });
         console.log('selected key', data.key);
         console.log('selected value', data.value);
+        console.log('selected item', item);
+        let matrizActual = Matriz;
 
-        setFormData({
-            ...fromData,
-            type_weight: data.key,
-            name_type: data.value,
 
-        })
+        switch (data.key) {
+            case "1":
+               matrizActual[item.key].simbolo="<";
+               matrizActual[item.key].simbolo_id=1;
+
+               break;
+
+            case "2":
+                matrizActual[item.key].simbolo="<=";
+                matrizActual[item.key].simbolo_id=2;
+
+                break;
+            
+            case "3":
+                matrizActual[item.key].simbolo="=";
+                matrizActual[item.key].simbolo_id=3;
+                break;
+
+            case"4":
+                matrizActual[item.key].simbolo=">=";
+                matrizActual[item.key].simbolo_id=4;
+
+                break;
+            //  return restriccion;             
+            case "5":
+                matrizActual[item.key].simbolo=">";
+                matrizActual[item.key].simbolo_id=5;
+
+                break;
+
+    
+          }
+
+
+          console.log('matrizActual',matrizActual)
+
+        // matrizActual[item.key]=key;
+
+        // setFormData({
+        //     ...fromData,
+        //     type_weight: data.key,
+        //     name_type: data.value,
+
+        // })
+
+
+
+
 
 
     };
@@ -135,7 +182,7 @@ const Calculadora = () => {
 
 
 
-       
+       console.log('MATRIZ ENVIADA',Matriz)
 
         const n = 3; // Número de restricciones
         const A = [[6, 2], [6, 5], [6, 5]]; // Matriz de coeficientes de las restricciones
@@ -149,6 +196,50 @@ const Calculadora = () => {
         metodoGraficoR(n, funcionObjetivo, A, b, maximizar,RestriccionSibolos);
 
     };
+
+
+
+    const onAdd = () => {
+        console.log('Success:');
+
+        let matrizActual = Matriz;
+
+        console.log('Matriz length',Matriz.length)
+
+        // matrizActual.add(       
+        // {
+        //     key: Matriz.length,
+        //     x: null,
+        //     y: null,
+        //     simbolo: "<",
+        //     simbolo_id: 1,
+        //     restriccion: null
+        // })
+        matrizActual.push({
+            key: Matriz.length,
+            x: null,
+            y: null,
+            simbolo: "<",
+            simbolo_id: 1,
+            restriccion: null
+        })
+        //  setMatriz(...Matriz,{
+        //     key: Matriz.length,
+        //     x: null,
+        //     y: null,
+        //     simbolo: "<",
+        //     simbolo_id: 1,
+        //     restriccion: null
+        // })
+
+        console.log('matrizActual',matrizActual)
+        console.log('Matriz nueva',Matriz)
+        // console.log(Matriz.length)
+    //    console.log('MATRIZ ENVIADA',Matriz)
+
+    };
+
+
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
@@ -257,13 +348,13 @@ const Calculadora = () => {
                                 <Row justify="center">
                                     <Col span={4}>
                                         <Item label="x" key={item.key} >
-                                            <Input name={item.key} key={item.key} title={'x'} values={item & item.x} onChange={handleChange} />
+                                            <Input name={item.key} key={item.key} title={'x'} values={item & item.x} onChange={(e) =>handleChange(e,item)} />
                                         </Item>
 
                                     </Col>
                                     <Col span={4} key={item.key}>
                                         <Item label="y" key={item.key}>
-                                            <Input name={item.key} key={item.key} title={'y'} values={item & item.y} onChange={handleChange} />
+                                            <Input name={item.key} key={item.key} title={'y'} values={item & item.y} onChange={(e) =>handleChange(e,item)} />
                                         </Item>
                                     </Col>
 
@@ -278,7 +369,7 @@ const Calculadora = () => {
                                                 style={{
                                                     width: '100%',
                                                 }}
-                                                onChange={handleChangeSelectRestriccion}
+                                                onChange={(e)=>handleChangeSelectRestriccion(e,item)}
                                             // onSearch={onSearch}
                                             >
                                                 {
@@ -292,7 +383,7 @@ const Calculadora = () => {
                                     </Col>
                                     <Col span={4}>
                                         <Item label={item.restriccion}>
-                                            <Input name={item.key} key={item.key} title={'restriccion'} values={item & item.restriccion} onChange={handleChange} />
+                                            <Input name={item.key} key={item.key} title={'restriccion'} values={item & item.restriccion} onChange={(e) =>handleChange(e,item)} />
                                         </Item>
 
                                     </Col>
@@ -308,6 +399,10 @@ const Calculadora = () => {
 
                         <Button type="primary" htmlType="submit" onClick={onFinish}>
                             Submit
+                        </Button>
+
+                        <Button type="primary" htmlType="submit" onClick={onAdd}>
+                            Adicionar
                         </Button>
                     {/* </Form> */}
                     <h1>Calculadoraaaa</h1>
