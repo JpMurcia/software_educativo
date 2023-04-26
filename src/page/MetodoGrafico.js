@@ -2,29 +2,33 @@
 
 function metodoGraficoR(n, funcionObjetivo, A, b, maximizar, RestriccionList) {
   // Definimos una función para evaluar las restricciones
-  console.log("RestriccionList", RestriccionList)
+   console.log("RestriccionList2", RestriccionList)
 
   const evaluarRestricciones = (x, y) => {
+    let listaCumple=[];
     for (let i = 0; i < n; i++) {
       
 
       switch (RestriccionList[i]) {
         case "<":
           return A[i][0] * x + A[i][1] * y < b[i];
-        case "<=":
-          return A[i][0] * x + A[i][1] * y <= b[i];
+        case "<=":         
+           return A[i][0] * x + A[i][1] * y <= b[i];
+          listaCumple.push( A[i][0] * x + A[i][1] * y <= b[i]);
         case "=":
           return A[i][0] * x + A[i][1] * y == b[i];
         case ">=":
           return A[i][0] * x + A[i][1] * y >= b[i];
-        //  return restriccion;             
+                   
         case ">":
-          return A[i][0] * x + A[i][1] * y < b[i];
+          return A[i][0] * x + A[i][1] * y > b[i];
 
       }
 
     }
-    return true;
+    
+    console.log('listaCumple',listaCumple)
+  //  return true;
   };
 
   // Buscamos el punto óptimo dentro de la región factible
@@ -32,8 +36,8 @@ function metodoGraficoR(n, funcionObjetivo, A, b, maximizar, RestriccionList) {
   let puntoOptimo = {};
   let listEnteros = [];
 
-  for (let x = 0; x <= 10; x += 0.01) {
-    for (let y = 0; y <= 10; y += 0.01) {
+  for (let x = 0; x <= 20; x += 0.01) {
+    for (let y = 0; y <= 20; y += 0.01) {
       if (evaluarRestricciones(x, y)) {
         const valor = funcionObjetivo(x, y);
         if (maximizar && valor > extremo || !maximizar && valor < extremo) {

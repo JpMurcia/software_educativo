@@ -184,6 +184,25 @@ const Calculadora = () => {
 
        console.log('MATRIZ ENVIADA',Matriz)
 
+       let n2 = 2; // Número de restricciones
+       let A2 = []; // Matriz de coeficientes de las restricciones
+       let b2 = []; // Vector de términos independientes de las restricciones
+       let RestriccionSibolos2 = []; // Vector de términos independientes de las restricciones
+       let funcionObjetivo2 = (x, y) => 10*x + 15*y; // Función objetivo
+       let maximizar2 = true; // Indica si se quiere maximizar o m
+
+       n2=Matriz.length;
+
+       for (let index = 0; index < Matriz.length; index++) {
+        // const element = array[index];
+        A2.push([Matriz[index].x,Matriz[index].y])
+        b2.push(Matriz[index].restriccion)
+        RestriccionSibolos2.push(Matriz[index].simbolo)
+
+       }
+
+
+
         const n = 3; // Número de restricciones
         const A = [[6, 2], [6, 5], [6, 5]]; // Matriz de coeficientes de las restricciones
         const b = [7, 12,17]; // Vector de términos independientes de las restricciones
@@ -191,9 +210,15 @@ const Calculadora = () => {
         const funcionObjetivo = (x, y) => 5*x + 4*y; // Función objetivo
         const maximizar = true; // Indica si se quiere maximizar o minimizar la función objetivo
         
+        console.log('A2',A2)
+        console.log('A',A)
+        console.log('b2',b2)
+        console.log('RestriccionSibolos2',RestriccionSibolos2)
       
         
         metodoGraficoR(n, funcionObjetivo, A, b, maximizar,RestriccionSibolos);
+        metodoGraficoR(n2, funcionObjetivo2, A2, b2, maximizar,RestriccionSibolos2);
+
 
     };
 
@@ -382,7 +407,7 @@ const Calculadora = () => {
                                         </Item>
                                     </Col>
                                     <Col span={4}>
-                                        <Item label={item.restriccion}>
+                                        <Item >
                                             <Input name={item.key} key={item.key} title={'restriccion'} values={item & item.restriccion} onChange={(e) =>handleChange(e,item)} />
                                         </Item>
 

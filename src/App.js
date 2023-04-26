@@ -11,6 +11,8 @@ import { TodoProvider } from './page/TodoContext';
 
 import { Calculadora } from './page/Calculadora';
 import { Home } from './page/Home';
+import  App3  from './App3';
+
 import { Manual } from './page/Manual';
 import { Public } from './page/public';
 
@@ -60,6 +62,10 @@ function App() {
 
         <Route path="/Reflexion" element={
           <Home />
+        } />
+
+        <Route path="/App3" element={
+          <App3 />
         } />
 
         {/* <Route path="/Home" element={
