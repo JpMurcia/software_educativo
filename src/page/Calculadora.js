@@ -1,13 +1,15 @@
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-import React, { useState,useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { TodoContext } from './TodoContext';
 import { TodoList } from './TodoList';
 import { TodoItem } from './TodoItem';
 import { metodoGraficoR } from './MetodoGrafico';
 
 import { metodoGraficov2 } from './MetodoGraficoV2';
+import { metodoGraficov3 } from './metodoGraficov3';
 import { Grafica } from './Grafica';
+import { MyGraph } from './GraficaV2';
 
 
 
@@ -15,7 +17,7 @@ import { CreateTodoButton } from './CreateTodoButton';
 // import { Modal } from './Modal';
 import { TodoForm } from './TodoForm';
 // import React from 'react';
-import { Table, Button, Modal, Input, Form, Row, Select, message, Divider, Col } from "antd";
+import { Table, Button, Modal, Input, Form, Row, Select, message, Divider, Col, Tag } from "antd";
 
 const { Option } = Select;
 const { Item } = Form;
@@ -29,11 +31,11 @@ const layout = {
     }
 };
 const InitialSimboloRestricciones = [
-    {
-        "id": 1,
-        "nameSimbolo": "<",
-        "o_state": 1
-    },
+    // {
+    //     "id": 1,
+    //     "nameSimbolo": "<",
+    //     "o_state": 1
+    // },
     {
         "id": 2,
         "nameSimbolo": "<=",
@@ -50,12 +52,12 @@ const InitialSimboloRestricciones = [
         "id": 4,
         "nameSimbolo": ">=",
         "o_state": 1
-    },
-    {
-        "id": 5,
-        "nameSimbolo": ">",
-        "o_state": 1
     }
+    // ,{
+    //     "id": 5,
+    //     "nameSimbolo": ">",
+    //     "o_state": 1
+    // }
 ];
 
 
@@ -85,16 +87,17 @@ const Calculadora = () => {
     ];
 
     const InitialMatrizVertices = [
-       [1,1],
-       [1,1]
+        [0, 0],
+        [1, 1],
+        [1, 1]
 
     ];
 
     const InitialFuncion =
     {
 
-        x: 5,
-        y: 6,
+        x: 1,
+        y: 1,
         // simbolo: "<=",
         maxi: true,
 
@@ -120,8 +123,56 @@ const Calculadora = () => {
     const [Simbolo, setSimbolo] = useState(InitialSimboloRestricciones);
     const [Matriz, setMatriz] = useState(InitialMatriz);
     const [MatrizVertices, setMatrizVertices] = useState(InitialMatrizVertices);
-
+    const [PuntoOptimo, setPuntoOptimo] = useState({});
     const [FuncionObj, setFuncion] = useState(InitialFuncion);
+
+    const [MatrizVerticesFactible, setMatrizVerticesFactible] = useState([]);
+
+
+    const [FuncionObjTex, setFuncionObjTex] = useState();
+    const [TablaSolucion, setTablaSolucion] = useState([]);
+    const [RestriccionTex, setRestriccionTex] = useState([]);
+    // const [FuncionObj, setFuncion] = useState(InitialFuncion);
+    const [MostarResul, setMostarResul] = useState(true);
+    const columns = [
+        {
+            title: 'Punto',
+            dataIndex: 'punto',
+            key: 'punto',
+        }, {
+            title: 'Coordenadas (x,y)',
+            dataIndex: 'coordenadas',
+            key: 'coordenadas',
+        },
+        {
+            title: `Valor de ${FuncionObjTex}`,
+            dataIndex: 'funcionObjeto',
+            key: 'funcionObjeto',
+        },
+
+        {
+            title: 'Estado',
+            dataIndex: 'optimo',
+            key: 'optimo',
+            render: ((state) => <> {state == "Optimo" ? <Tag color='green'  >Optimo</Tag> : state == "Factible" ? <Tag color='blue'  >Factible </Tag> : <Tag color='volcano'  >No Optimo </Tag>}</>)
+        }
+
+
+    ];
+    const [messageApi, contextHolder] = message.useMessage();
+    const success = (Mensaje) => {
+      messageApi.open({
+        type: 'success',
+        content: Mensaje,
+      });
+    };
+
+    const error = (Mensaje) => {
+        messageApi.open({
+          type: 'error',
+          content: Mensaje,
+        });
+      };
 
     const abrirCerrarModal = () => {
 
@@ -161,7 +212,7 @@ const Calculadora = () => {
 
         setFuncion({
             ...FuncionObj,
-            maxi: data.value
+            maxi: data.value == 2 ? false : true
         })
 
 
@@ -226,72 +277,166 @@ const Calculadora = () => {
 
 
     };
+    function puntoEstaEnRegionFactible(punto, coeficientes, terminosIndependientes, tiposRestricciones) {
+        for (let i = 0; i < terminosIndependientes.length; i++) {
+            // console.log('punto',punto)
+            // console.log('coeficientes',coeficientes)
+            // console.log('terminosIndependientes',terminosIndependientes)
+            // console.log('tiposRestricciones',tiposRestricciones)
+            //   let resultado = coeficientes[i][0] * punto[0] + coeficientes[i][1] * punto[1];
+            let resultado = punto[0] * coeficientes[i][0] + punto[1] * coeficientes[i][1];
+            
+            if (tiposRestricciones[i] === "<=" && resultado > terminosIndependientes[i]) {
+                return false;
+            }
+            else if (tiposRestricciones[i] === ">=" && resultado < terminosIndependientes[i]) {
+                return false;
+            }
+            else if (tiposRestricciones[i] === "=" && resultado !== terminosIndependientes[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     const onFinish = (values) => {
-        console.log('Success:', values);
+
+
+        // metodoGraficoR(n2, funcionObjetivo2, A2, b2, maximizar, RestriccionSibolos2);
+
+        try {
+
+
+            console.log('Success:', values);
 
 
 
-        console.log('MATRIZ ENVIADA', Matriz)
-        console.log('FuncionObj ENVIADA', FuncionObj)
+            console.log('MATRIZ ENVIADA', Matriz)
+            console.log('FuncionObj ENVIADA', FuncionObj)
 
-        let n2 = 2; // Número de restricciones
-        let A2 = []; // Matriz de coeficientes de las restricciones
-        let b2 = []; // Vector de términos independientes de las restricciones
-        let RestriccionSibolos2 = []; // Vector de términos independientes de las restricciones
-        let funcionObjetivo2 = (x, y) => 5 * x + 3 * y; // Función objetivo
-        let maximizar2 = true; // Indica si se quiere maximizar o m
+            let n2 = 2; // Número de restricciones
+            let A2 = []; // Matriz de coeficientes de las restricciones
+            let b2 = []; // Vector de términos independientes de las restricciones
 
-        n2 = Matriz.length;
+            let ListaResticio = []; // Matriz de coeficientes de las restricciones
 
-        for (let index = 0; index < Matriz.length; index++) {
-            // const element = array[index];
-            A2.push([Matriz[index].x, Matriz[index].y])
-            b2.push(Matriz[index].restriccion)
-            RestriccionSibolos2.push(Matriz[index].simbolo)
+            let RestriccionSibolos2 = []; // Vector de términos independientes de las restricciones
+            // let funcionObjetivo2 = (x, y) => 5 * x + 3 * y; // Función objetivo
 
+
+            n2 = Matriz.length;
+
+            for (let index = 0; index < Matriz.length; index++) {
+                // const element = array[index];
+                A2.push([Matriz[index].x, Matriz[index].y])
+                ListaResticio.push(Matriz[index].x + 'x + ' + Matriz[index].y + 'y ' + Matriz[index].simbolo + ' ' + Matriz[index].restriccion)
+                b2.push(Matriz[index].restriccion)
+                RestriccionSibolos2.push(Matriz[index].simbolo)
+
+            }
+            // A2.push([1,0])
+            // A2.push([0,1])
+            // b2.push(0)
+            // b2.push(0)
+            // RestriccionSibolos2.push('>=')
+            // RestriccionSibolos2.push('>=')
+            // let coeficientes = [[1, 1], [9, 5]];
+            // let terminosIndependientes = [6, 45];
+            // let tiposRestricciones = ["<=", "<="];
+            // // let { Todosvertices, vertices, valoresObjetivo, coordenadaOptima } = metodoGraficov2(coeficientes, terminosIndependientes, tiposRestricciones, funcionObjetivo3, objetivoMaximizar);
+            // let { Todosvertices, vertices, valoresObjetivo, coordenadaOptima } = metodoGraficov2(A2, b2, RestriccionSibolos2, funcionObjetivo3, objetivoMaximizar);
+            // let coeficientes2 = [[2, 1], [-1, 2], [1, -1]];
+            // let terminosIndependientes2 = [8, 2, 4];
+            // let tiposRestricciones2 = [">=", ">=", "<="];
+            // let funcionObjetivo2 = [3, 5];
+            // let objetivoMaximizar2 = true;
+            // let resultado = metodoGraficov3(coeficientes2, terminosIndependientes2, tiposRestricciones2, funcionObjetivo2, objetivoMaximizar2);
+            // console.log(resultado);
+
+            let objetivoMaximizar = FuncionObj.maxi;
+            let funcionObjetivo3 = [FuncionObj.x, FuncionObj.y];
+            let funcionObjetivoTexto = (FuncionObj.maxi ? 'Max ' : 'Min ') + "" + FuncionObj.x + 'x + ' + FuncionObj.y + 'y'
+
+            console.log('A2', A2)
+            console.log('b2', b2)
+            console.log('RestriccionSibolos2', RestriccionSibolos2)
+            console.log('ListaResticio', ListaResticio)
+            console.log('funcionObjetivoTexto', funcionObjetivoTexto)
+
+
+            let resultado2 = metodoGraficov3(A2, b2, RestriccionSibolos2, funcionObjetivo3, objetivoMaximizar);
+            let resultado3 = metodoGraficov3(A2, b2, RestriccionSibolos2, funcionObjetivo3, objetivoMaximizar);
+
+            console.log('resultado2', resultado2);
+            console.log('resultado3', resultado3);
+            console.log('resultado2.Todosvertices1', resultado2.Todosvertices);
+            console.log('resultado3.Todosvertices2', resultado3.Todosvertices);
+
+            let listaPuntoFactibleV = resultado2.Todosvertices;
+
+            let listaPuntoFactible = []
+            let listaPuntoTexto = []
+            for (let index = 0; index < resultado2.Todosvertices.length; index++) {
+                listaPuntoFactible.push(puntoEstaEnRegionFactible(resultado2.Todosvertices[index], A2, b2, RestriccionSibolos2))
+                if (!puntoEstaEnRegionFactible(resultado2.Todosvertices[index], A2, b2, RestriccionSibolos2)) {
+                    listaPuntoFactibleV.splice(index, 1);
+                }
+
+            }
+            console.log('resultado2.Todosvertices2', resultado2.Todosvertices);
+
+            for (let index = 0; index < resultado3.Todosvertices.length; index++) {
+                console.log('resultado2.Todosvertices[index][0]', resultado3.Todosvertices[index][0])
+                console.log('FuncionObj.x', FuncionObj.x)
+                let calculo = parseFloat(FuncionObj.x) * parseFloat(resultado3.Todosvertices[index][0]) + parseFloat(FuncionObj.y) * parseFloat(resultado3.Todosvertices[index][1]);
+                console.log('calculo ', calculo)
+                let texto = puntoEstaEnRegionFactible(resultado3.Todosvertices[index], A2, b2, RestriccionSibolos2) ? 'Factible' : 'No Factible';
+                listaPuntoTexto.push({
+                    punto: index,
+                    coordenadas: `(${resultado3.Todosvertices[index][0]},${resultado3.Todosvertices[index][0]})`,
+                    funcionObjeto: ` ${FuncionObj.x}(${resultado3.Todosvertices[index][0]}) + ${FuncionObj.x}(${resultado3.Todosvertices[index][1]}) = ${calculo}`
+                    , optimo: texto
+                })
+            }
+            listaPuntoTexto.push({
+                punto: listaPuntoTexto.length,
+                coordenadas: `(${resultado2.coordenadaOptima[0]},${resultado2.coordenadaOptima[1]})`,
+                funcionObjeto: ` ${FuncionObj.x}(${resultado2.coordenadaOptima[0]}) + ${FuncionObj.x}(${resultado2.coordenadaOptima[1]}) = ${resultado2.valoresObjetivo[0]}`
+                , optimo: 'Optimo'
+            })
+
+            console.log('Vertices Factibles', listaPuntoFactible)
+            console.log(' listaPuntoTexto', listaPuntoTexto)
+            console.log('Vertices listaPuntoFactibleV', listaPuntoFactibleV)
+            listaPuntoFactibleV.push([resultado2.coordenadaOptima[0], resultado2.coordenadaOptima[1]])
+
+            setTablaSolucion(listaPuntoTexto);
+            setMatrizVertices(resultado2.Todosvertices);
+
+            setFuncionObjTex(funcionObjetivoTexto)
+            setRestriccionTex(ListaResticio)
+            setMatrizVerticesFactible(listaPuntoFactibleV);
+
+
+            setPuntoOptimo({
+                x: resultado2.coordenadaOptima[0],
+                y: resultado2.coordenadaOptima[1]
+            })
+
+            success('Se ha calculado Sactifactoriamente')
+            setMostarResul(!MostarResul)
+            
+
+
+            // abrirCerrarModal();
+        } catch (error) {
+            error('Se presento un Error');
         }
 
 
-
-        const n = 3; // Número de restricciones
-        const A = [[6, 2], [6, 5], [6, 5]]; // Matriz de coeficientes de las restricciones
-        const b = [7, 12, 17]; // Vector de términos independientes de las restricciones
-        const RestriccionSibolos = ["<=", "<=", "<="]; // Vector de términos independientes de las restricciones
-        const funcionObjetivo = (x, y) => 5 * x + 4 * y; // Función objetivo
-        const maximizar = true; // Indica si se quiere maximizar o minimizar la función objetivo
-
-        console.log('A2', A2)
-        console.log('b2', b2)
-        console.log('RestriccionSibolos2', RestriccionSibolos2)
-
-
-        // metodoGraficoR(n, funcionObjetivo, A, b, maximizar, RestriccionSibolos);
-        // metodoGraficoR(n2, funcionObjetivo2, A2, b2, maximizar, RestriccionSibolos2);
-
-
-
-
-        // Ejemplo de uso:
-        let coeficientes = [[1, 1], [9, 5]];
-        let terminosIndependientes = [6, 45];
-        let tiposRestricciones = ["<=", "<="];
-        let funcionObjetivo3 = [80, 50];
-        let objetivoMaximizar = true;
-
-        let { Todosvertices, vertices, valoresObjetivo, coordenadaOptima } = metodoGraficov2(coeficientes, terminosIndependientes, tiposRestricciones, funcionObjetivo3, objetivoMaximizar);
-        setMatrizVertices(Todosvertices);
-
-        console.log('coordenadaOptima', coordenadaOptima);
-        //    console.log('valorOptimo',valorOptimo);
-        console.log('valoresObjetivo', valoresObjetivo);
-        console.log('vertices', vertices);
-        console.log('Todosvertices', Todosvertices);
-
-        abrirCerrarModal();
-
-
     };
+
+  
 
     const onRest = () => {
         console.log('Success:');
@@ -301,7 +446,7 @@ const Calculadora = () => {
         console.log('Matriz length', Matriz.length)
 
 
-       
+
         matrizActual.pop();
 
         setMatriz(matrizActual)
@@ -310,11 +455,13 @@ const Calculadora = () => {
         console.log('matrizActual', matrizActual)
         console.log('Matriz nueva', Matriz)
 
+        success('Se Elimino una Restricción')
 
     };
 
 
     const onAdd = () => {
+
         console.log('Success:');
 
         let matrizActual = Matriz;
@@ -329,7 +476,7 @@ const Calculadora = () => {
             simbolo: "<",
             simbolo_id: 1,
             restriccion: null
-        })    
+        })
 
         setMatriz(matrizActual)
 
@@ -337,14 +484,15 @@ const Calculadora = () => {
         console.log('Matriz nueva', Matriz)
         // console.log(Matriz.length) 
         //    console.log('MATRIZ ENVIADA',Matriz)
+        success('Se agrego una Restricción')
 
     };
- 
-    useEffect(() => {
-        // Matriz
-      
-    
-      }, [Matriz]);
+
+    // useEffect(() => {
+    //     // console.log("")
+
+
+    // }, [Matriz]); 
 
 
     return (
@@ -354,159 +502,188 @@ const Calculadora = () => {
 
 
 
-                <div justify="center" >
+            <div justify="center" >
 
-                    <br />
-                    <br />
-                    <br />
+                <br />
+                <br />
+                {contextHolder}
+                <br />
 
-                    <Row justify="center">
+                <Row justify="center">
 
-                        <Col span={4}>
+                    <Col span={4}>
 
-                            <Item  >
-                                <Select
-                                    showSearch
-                                    labelInValue
-                                    name="o_id"
+                        <Item  >
+                            <Select
+                                showSearch
+                                labelInValue
+                                name="o_id"
 
-                                    // value={item && item.simbolo}
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                    onChange={(e) => handleChangeSelectMaxiMini(e)}
-                                // onSearch={onSearch}
-                                >
-                                    {
-                                        InitialMaxiMini.map((item1) => (
-                                            // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
-                                            <Option key={item1.id} value={item1.key}> {item1.nameSimbolo}</Option>
-                                        ))
-                                    }
-                                </Select>
-                            </Item>
-                        </Col>
-
-
-                    </Row>
+                                // value={item && item.simbolo}
+                                style={{
+                                    width: '100%',
+                                }}
+                                onChange={(e) => handleChangeSelectMaxiMini(e)}
+                            // onSearch={onSearch}
+                            >
+                                {
+                                    InitialMaxiMini.map((item1) => (
+                                        // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                                        <Option key={item1.id} value={item1.key}> {item1.nameSimbolo}</Option>
+                                    ))
+                                }
+                            </Select>
+                        </Item>
+                    </Col>
 
 
-                    <br />
-
-                    <Row justify="center">
-                        <Col span={4}>
-                            <Item label="FUNCION OBJETIVO" >
-                                {/* <Input name='x' onChange={handleChange} /> */}
-                            </Item>
-
-                        </Col>
-                        <Col span={4}>
-                            <Item label="x" >
-                                <Input name='x' onChange={handleChangeGeneral} />
-                            </Item>
-
-                        </Col>
-                        <Col span={4}>
-
-                            <Item label="y">
-                                <Input name='y' onChange={handleChangeGeneral} />
-                            </Item>
-                        </Col>
-
-                    </Row>
+                </Row>
 
 
+                <br />
 
-                    { Matriz.map(item => (
+                <Row justify="center">
+                    <Col span={4}>
+                        <Item label="FUNCION OBJETIVO" >
+                            {/* <Input name='x' onChange={handleChange} /> */}
+                        </Item>
 
-                        <>
-                            <Row >
-                                <Col span={12}   >
-                                    Restriccion {item.key + 1}
+                    </Col>
+                    <Col span={4}>
+                        <Item label="x" >
+                            <Input name='x' onChange={handleChangeGeneral} />
+                        </Item>
 
-                                </Col>
+                    </Col>
+                    <Col span={4}>
 
-                            </Row>
-                            <Row justify="center">
+                        <Item label="y">
+                            <Input name='y' onChange={handleChangeGeneral} />
+                        </Item>
+                    </Col>
 
-                                <Col span={4}>
-                                    <Item label="x" key={item.key} >
-                                        <Input name={item.key} key={item.key} title={'x'} values={item & item.x} onChange={(e) => handleChange(e, item)} />
-                                    </Item>
-
-                                </Col>
-                                <Col span={4} key={item.key}>
-                                    <Item label="y" key={item.key}>
-                                        <Input name={item.key} key={item.key} title={'y'} values={item & item.y} onChange={(e) => handleChange(e, item)} />
-                                    </Item>
-                                </Col>
-
-                                <Col span={4}>
-                                    <Item  >
-                                        <Select
-                                            showSearch
-                                            labelInValue
-                                            name="o_id"
-                                            key={item.key}
-                                            // value={item && item.simbolo}
-                                            style={{
-                                                width: '100%',
-                                            }}
-                                            onChange={(e) => handleChangeSelectRestriccion(e, item)}
-                                        // onSearch={onSearch}
-                                        >
-                                            {
-                                                Simbolo.map((item1) => (
-                                                    // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
-                                                    <Option key={item1.id} title={item.key} value={item1.key}> {item1.nameSimbolo}</Option>
-                                                ))
-                                            }
-                                        </Select>
-                                    </Item>
-                                </Col>
-                                <Col span={4}>
-                                    <Item >
-                                        <Input name={item.key} key={item.key} title={'restriccion'} values={item & item.restriccion} onChange={(e) => handleChange(e, item)} />
-                                    </Item>
-
-                                </Col>
-                            </Row>
-                        </>
-                    ))}
- 
+                </Row>
 
 
-                    {/* <Button type="primary" htmlType="submit">
+
+                {Matriz.map(item => (
+
+                    <>
+                        <Row >
+                            <Col span={12}   >
+                                Restriccion {item.key + 1}
+
+                            </Col>
+
+                        </Row>
+                        <Row justify="center">
+
+                            <Col span={4}>
+                                <Item label="x" key={item.key} >
+                                    <Input name={item.key} key={item.key} title={'x'} values={item & item.x} onChange={(e) => handleChange(e, item)} />
+                                </Item>
+
+                            </Col>
+                            <Col span={4} key={item.key}>
+                                <Item label="y" key={item.key}>
+                                    <Input name={item.key} key={item.key} title={'y'} values={item & item.y} onChange={(e) => handleChange(e, item)} />
+                                </Item>
+                            </Col>
+
+                            <Col span={4}>
+                                <Item  >
+                                    <Select
+                                        showSearch
+                                        labelInValue
+                                        name="o_id"
+                                        key={item.key}
+                                        // value={item && item.simbolo}
+                                        style={{
+                                            width: '100%',
+                                        }}
+                                        onChange={(e) => handleChangeSelectRestriccion(e, item)}
+                                    // onSearch={onSearch}
+                                    >
+                                        {
+                                            Simbolo.map((item1) => (
+                                                // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                                                <Option key={item1.id} title={item.key} value={item1.key}> {item1.nameSimbolo}</Option>
+                                            ))
+                                        }
+                                    </Select>
+                                </Item>
+                            </Col>
+                            <Col span={4}>
+                                <Item >
+                                    <Input name={item.key} key={item.key} title={'restriccion'} values={item & item.restriccion} onChange={(e) => handleChange(e, item)} />
+                                </Item>
+
+                            </Col>
+                        </Row>
+                    </>
+                ))}
+
+
+
+                {/* <Button type="primary" htmlType="submit">
                             Submit
                         </Button> */}
 
-                    <Button type="primary" onClick={onFinish}>
-                        Calcular
-                    </Button>
-  
-                    <Button type="primary"  onClick={onAdd}>
-                        Adicionar
-                    </Button> 
-    
-                    <Button type="primary"  disabled={Matriz.length>2? false:true} onClick={onRest}>
-                        Quitar
-                    </Button>
-                    {/* </Form> */}
-                    <h1>Calculadoraaaa</h1> 
+                <Button type="primary" onClick={onFinish}>
+                    Calcular
+                </Button>
 
-                    <br/>
-                    <Grafica 
-                    
-                    Puntos={MatrizVertices}
-                    
+                <Button type="primary" onClick={onAdd}>
+                    Adicionar
+                </Button>
+
+                <Button type="primary" disabled={Matriz.length > 2 ? false : true} onClick={onRest}>
+                    Quitar
+                </Button>
+                {/* </Form> */}
+                <h1>Calculadoraaaa</h1>
+
+
+                <br />
+
+                <div hidden={MostarResul}>
+                    <MyGraph
+                        
+
+                        funcionObjetivo={PuntoOptimo}
+                        Puntos={MatrizVertices}
+
+                        RestriccionTex={RestriccionTex}
+                        FuncionObjTex={FuncionObjTex}
+                        Matriz={Matriz}
+                        MatrizVerticesFactible={MatrizVerticesFactible}
                     />
+                </div>
+                <br />
+                <div hidden={MostarResul}>
+                    {/* <Grafica
+                        funcionObjetivo={PuntoOptimo}
+                        Puntos={MatrizVertices}
 
+                        RestriccionTex={RestriccionTex}
+                        FuncionObjTex={FuncionObjTex}
+                        Matriz={Matriz}
+                        MatrizVerticesFactible={MatrizVerticesFactible}
 
+                    /> */}
+                </div>
 
+                <div hidden={MostarResul}>
+                    <Table width={500} dataSource={TablaSolucion} columns={columns} />
 
                 </div>
 
-                {/* <Modal
+
+
+
+            </div>
+
+            {/* <Modal
                     visible={modal}
                     title=" Lugar"
                     destroyOnClose={true}
@@ -524,20 +701,17 @@ const Calculadora = () => {
                     <Form >
 
                        
-                            <Grafica />
-
-
-
-           
-
-
-
+                            <Grafica
+                            
+                            funcionObjetivo={PuntoOptimo}
+                            Puntos={MatrizVertices}
+                            />
 
 
 
                     </Form>
                 </Modal> */}
- 
+
             {/* </React.Fragment> */}
         </>
 

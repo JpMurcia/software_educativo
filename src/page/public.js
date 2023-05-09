@@ -71,8 +71,8 @@ const items = [
 
     icon: <AppstoreOutlined />,
     label: (    
-      <Link to={'http://localhost:3000/Reflexion'}>       
-        <span>{'Reflexion final de metodo grafico'}</span>
+      <Link to={'http://localhost:3000/Ejercicios'}>       
+        <span>{'Ejercicios de programación gráfica lineal'}</span>
       </Link>
     ),
     key: 'alipay',

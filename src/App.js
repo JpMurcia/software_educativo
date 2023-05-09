@@ -15,10 +15,13 @@ import  App3  from './App3';
 
 import { Manual } from './page/Manual';
 import { Public } from './page/public';
+import { Ejercicios } from './page/Ejercicios';
 
 import { Teoria } from './page/Teoria';
 import { NotFoundPage } from './page/NotFoundPage';
 
+
+import './App.css';
 
 
 
@@ -60,8 +63,8 @@ function App() {
           <Manual />
         } />
 
-        <Route path="/Reflexion" element={
-          <Home />
+        <Route path="/Ejercicios" element={
+          <Ejercicios />
         } />
 
         <Route path="/App3" element={
