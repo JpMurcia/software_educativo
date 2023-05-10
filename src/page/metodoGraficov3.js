@@ -10,10 +10,21 @@ function metodoGraficov3(coeficientes, terminosIndependientes, tiposRestriccione
   let valoresObjetivo = vertices.map(vertice => calcularValorObjetivo(vertice, funcionObjetivo, objetivoMaximizar));
   
   // Paso 3: Encontrar el valor óptimo de la función objetivo y su coordenada correspondiente
+  console.log('objetivoMaximizar',objetivoMaximizar)
+
   let indiceOptimo = objetivoMaximizar ? valoresObjetivo.indexOf(Math.max(...valoresObjetivo)) : valoresObjetivo.indexOf(Math.min(...valoresObjetivo));
-  // let valorOptimo = valoresObjetivo[indiceOptimo];
-  let coordenadaOptima = vertices[indiceOptimo];
+  // console.log('valoresObjetivo.indexOf(Math.min(...valoresObjetivo))',valoresObjetivo.indexOf(Math.min(...valoresObjetivo)))
+  // console.log('valoresObjetivo.indexOf(Math.max(...valoresObjetivo))',valoresObjetivo.indexOf(Math.max(...valoresObjetivo)))
+  // console.log('vertices',vertices)
+  // console.log('vertices',indiceOptimo)
   
+  // let valorOptimo = valoresObjetivo[indiceOptimo];
+  let coordenadaOptima = vertices[objetivoMaximizar?0:vertices.length-1];
+  // let coordenadaOptima = Todosvertices[indiceOptimo];
+  // console.log('coordenadaOptimaPRUEBA',coordenadaOptimaPRUEBA)
+  console.log('indiceOptimo',indiceOptimo)
+  console.log('coordenadaOptima',coordenadaOptima)
+  // return {Todosvertices,vertices,valoresObjetivo,coordenadaOptima}
   return {Todosvertices,vertices,valoresObjetivo,coordenadaOptima}
 }
 

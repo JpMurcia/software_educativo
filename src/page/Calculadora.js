@@ -10,8 +10,9 @@ import { metodoGraficov2 } from './MetodoGraficoV2';
 import { metodoGraficov3 } from './metodoGraficov3';
 import { Grafica } from './Grafica';
 import { MyGraph } from './GraficaV2';
+// import Geogebra from 'geogebra-react';
 
-
+import Geogebra from 'react-geogebra';
 
 import { CreateTodoButton } from './CreateTodoButton';
 // import { Modal } from './Modal';
@@ -154,25 +155,25 @@ const Calculadora = () => {
             title: 'Estado',
             dataIndex: 'optimo',
             key: 'optimo',
-            render: ((state) => <> {state == "Optimo" ? <Tag color='green'  >Optimo</Tag> : state == "Factible" ? <Tag color='blue'  >Factible </Tag> : <Tag color='volcano'  >No Optimo </Tag>}</>)
+            render: ((state) => <> {state == "Optimo" ? <Tag color='green'  >Optimo</Tag> : state == "Factible" ? <Tag color='blue'  >Factible </Tag> : <Tag color='volcano'  >No Factible</Tag>}</>)
         }
 
 
     ];
     const [messageApi, contextHolder] = message.useMessage();
     const success = (Mensaje) => {
-      messageApi.open({
-        type: 'success',
-        content: Mensaje,
-      });
+        messageApi.open({
+            type: 'success',
+            content: Mensaje,
+        });
     };
 
     const error = (Mensaje) => {
         messageApi.open({
-          type: 'error',
-          content: Mensaje,
+            type: 'error',
+            content: Mensaje,
         });
-      };
+    };
 
     const abrirCerrarModal = () => {
 
@@ -285,7 +286,7 @@ const Calculadora = () => {
             // console.log('tiposRestricciones',tiposRestricciones)
             //   let resultado = coeficientes[i][0] * punto[0] + coeficientes[i][1] * punto[1];
             let resultado = punto[0] * coeficientes[i][0] + punto[1] * coeficientes[i][1];
-            
+
             if (tiposRestricciones[i] === "<=" && resultado > terminosIndependientes[i]) {
                 return false;
             }
@@ -362,15 +363,16 @@ const Calculadora = () => {
             console.log('RestriccionSibolos2', RestriccionSibolos2)
             console.log('ListaResticio', ListaResticio)
             console.log('funcionObjetivoTexto', funcionObjetivoTexto)
+            console.log('objetivoMaximizar', objetivoMaximizar)
 
 
             let resultado2 = metodoGraficov3(A2, b2, RestriccionSibolos2, funcionObjetivo3, objetivoMaximizar);
             let resultado3 = metodoGraficov3(A2, b2, RestriccionSibolos2, funcionObjetivo3, objetivoMaximizar);
 
-            console.log('resultado2', resultado2);
-            console.log('resultado3', resultado3);
-            console.log('resultado2.Todosvertices1', resultado2.Todosvertices);
-            console.log('resultado3.Todosvertices2', resultado3.Todosvertices);
+            // console.log('resultado2', resultado2);
+            // console.log('resultado3', resultado3);
+            // console.log('resultado2.Todosvertices1', resultado2.Todosvertices);
+            // console.log('resultado3.Todosvertices2', resultado3.Todosvertices);
 
             let listaPuntoFactibleV = resultado2.Todosvertices;
 
@@ -383,25 +385,25 @@ const Calculadora = () => {
                 }
 
             }
-            console.log('resultado2.Todosvertices2', resultado2.Todosvertices);
+            console.log('resultado2.Todosvertices2', resultado3.Todosvertices);
 
             for (let index = 0; index < resultado3.Todosvertices.length; index++) {
                 console.log('resultado2.Todosvertices[index][0]', resultado3.Todosvertices[index][0])
-                console.log('FuncionObj.x', FuncionObj.x)
+                // console.log('FuncionObj.x', FuncionObj.x)
                 let calculo = parseFloat(FuncionObj.x) * parseFloat(resultado3.Todosvertices[index][0]) + parseFloat(FuncionObj.y) * parseFloat(resultado3.Todosvertices[index][1]);
-                console.log('calculo ', calculo)
+                // console.log('calculo ', calculo)
                 let texto = puntoEstaEnRegionFactible(resultado3.Todosvertices[index], A2, b2, RestriccionSibolos2) ? 'Factible' : 'No Factible';
                 listaPuntoTexto.push({
                     punto: index,
-                    coordenadas: `(${resultado3.Todosvertices[index][0]},${resultado3.Todosvertices[index][0]})`,
-                    funcionObjeto: ` ${FuncionObj.x}(${resultado3.Todosvertices[index][0]}) + ${FuncionObj.x}(${resultado3.Todosvertices[index][1]}) = ${calculo}`
+                    coordenadas: `(${resultado3.Todosvertices[index][0]},${resultado3.Todosvertices[index][1]})`,
+                    funcionObjeto: ` ${FuncionObj.x}(${resultado3.Todosvertices[index][0]}) + ${FuncionObj.y}(${resultado3.Todosvertices[index][1]}) = ${calculo}`
                     , optimo: texto
                 })
             }
             listaPuntoTexto.push({
                 punto: listaPuntoTexto.length,
                 coordenadas: `(${resultado2.coordenadaOptima[0]},${resultado2.coordenadaOptima[1]})`,
-                funcionObjeto: ` ${FuncionObj.x}(${resultado2.coordenadaOptima[0]}) + ${FuncionObj.x}(${resultado2.coordenadaOptima[1]}) = ${resultado2.valoresObjetivo[0]}`
+                funcionObjeto: ` ${FuncionObj.x}(${resultado2.coordenadaOptima[0]}) + ${FuncionObj.y}(${resultado2.coordenadaOptima[1]}) = ${resultado2.valoresObjetivo[0]}`
                 , optimo: 'Optimo'
             })
 
@@ -411,7 +413,7 @@ const Calculadora = () => {
             listaPuntoFactibleV.push([resultado2.coordenadaOptima[0], resultado2.coordenadaOptima[1]])
 
             setTablaSolucion(listaPuntoTexto);
-            setMatrizVertices(resultado2.Todosvertices);
+            setMatrizVertices(resultado3.Todosvertices);
 
             setFuncionObjTex(funcionObjetivoTexto)
             setRestriccionTex(ListaResticio)
@@ -422,21 +424,72 @@ const Calculadora = () => {
                 x: resultado2.coordenadaOptima[0],
                 y: resultado2.coordenadaOptima[1]
             })
-
+            ////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////
+            const app = window.ggbApplet;
+            app.reset()
+            // app.evalCommand('B=(2,0)');
             success('Se ha calculado Sactifactoriamente')
             setMostarResul(!MostarResul)
-            
+
+            listaPuntoFactibleV.sort(compararCoordenadas);
+            listaPuntoFactibleV.push(listaPuntoFactibleV[0])
+            console.log('listaPuntoFactibleV ORDENADO', listaPuntoFactibleV)
+            // app.evalCommand(`Optimo =(${funcionObjetivo.x},${funcionObjetivo.y})`);
+            app.evalCommand(`Optimo =(${resultado2.coordenadaOptima[0]},${resultado2.coordenadaOptima[1]})`);
+            let lista = ''
+            for (let index = 0; index < listaPuntoFactibleV.length; index++) {
+                // const element = array[index];
+                lista = lista + `(${listaPuntoFactibleV[index][0]},${listaPuntoFactibleV[index][1]})`
+            }
+            for (let index = 0; index < resultado3.Todosvertices.length; index++) {
+                // const element = array[index];
+                app.evalCommand(`P${index}=(${resultado3.Todosvertices[index][0]},${resultado3.Todosvertices[index][1]})`);
+                // console.log(`Line((${Puntos[index][0]},${Puntos[index][1]})),(${Puntos[index+1][0]},${Puntos[index+1][1]}))`)
+                //lista = lista + `(${resultado3.Todosvertices[index][0]},${resultado3.Todosvertices[index][1]})`
+            }
+            const result = lista.replace(/\)\(/g, "),(");
+
+            console.log(result); // (0,0),(6,0),(0,6),(5,0)
+            console.log('lista Poligono', lista)
+
+            app.evalCommand(`AreaFactible=Polygon(${result})`);
+
+            let index2 = 0;
+            for (let index = 1; index < resultado3.Todosvertices.length; index += 2) {
+
+                // app.evalCommand(`${RestriccionTex[index2]}=Line((${Puntos[index][0]},${Puntos[index][1]}),(${Puntos[index + 1][0]},${Puntos[index + 1][1]}))`);
+                app.evalCommand(`Resticcion${index2 + 1}=Line((${resultado3.Todosvertices[index][0]},${resultado3.Todosvertices[index][1]}),(${resultado3.Todosvertices[index + 1][0]},${resultado3.Todosvertices[index + 1][1]}))`);
+                index2++;
+            }
+            console.log('lista MatrizVerticesFactible', MatrizVerticesFactible)
 
 
-            // abrirCerrarModal();
+
+            abrirCerrarModal();
         } catch (error) {
             error('Se presento un Error');
         }
 
 
     };
+    function compararCoordenadas(a, b) {
+        if (a[0] < b[0]) {
+            return -1;
+        } else if (a[0] > b[0]) {
+            return 1;
+        } else {
+            if (a[1] < b[1]) {
+                return -1;
+            } else if (a[1] > b[1]) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
 
-  
 
     const onRest = () => {
         console.log('Success:');
@@ -540,7 +593,7 @@ const Calculadora = () => {
                 </Row>
 
 
-                <br />
+
 
                 <Row justify="center">
                     <Col span={4}>
@@ -577,20 +630,17 @@ const Calculadora = () => {
 
                         </Row>
                         <Row justify="center">
-
-                            <Col span={4}>
-                                <Item label="x" key={item.key} >
+                            <Col span={4} >
+                                <Item label="x" key={item.key}  >
                                     <Input name={item.key} key={item.key} title={'x'} values={item & item.x} onChange={(e) => handleChange(e, item)} />
                                 </Item>
-
                             </Col>
                             <Col span={4} key={item.key}>
-                                <Item label="y" key={item.key}>
+                                <Item label="+ y " key={item.key}>
                                     <Input name={item.key} key={item.key} title={'y'} values={item & item.y} onChange={(e) => handleChange(e, item)} />
                                 </Item>
                             </Col>
-
-                            <Col span={4}>
+                            <Col span={2}>
                                 <Item  >
                                     <Select
                                         showSearch
@@ -599,7 +649,7 @@ const Calculadora = () => {
                                         key={item.key}
                                         // value={item && item.simbolo}
                                         style={{
-                                            width: '100%',
+                                            width: '90%',
                                         }}
                                         onChange={(e) => handleChangeSelectRestriccion(e, item)}
                                     // onSearch={onSearch}
@@ -647,8 +697,8 @@ const Calculadora = () => {
                 <br />
 
                 <div hidden={MostarResul}>
-                    <MyGraph
-                        
+                    {/* <MyGraph
+
 
                         funcionObjetivo={PuntoOptimo}
                         Puntos={MatrizVertices}
@@ -657,7 +707,7 @@ const Calculadora = () => {
                         FuncionObjTex={FuncionObjTex}
                         Matriz={Matriz}
                         MatrizVerticesFactible={MatrizVerticesFactible}
-                    />
+                    /> */}
                 </div>
                 <br />
                 <div hidden={MostarResul}>
@@ -678,39 +728,86 @@ const Calculadora = () => {
 
                 </div>
 
+                <div >
+
+                    <Row
+
+                        //  hidden={true} 
+                        justify="center"
+                    >
+                        <Geogebra
+                            appletId="myApplet"
+                            width={500}
+                            height={500}
+                            showToolBar={false}
+                            borderColor="#000000"
+                            showMenuBar={false}                            
+                            // showAlgebraInput={false}
+                            showAlgebraInput={false}
+                            view="Algebra"
+                            settings={{
+                                grid: false,
+                                axes: false,
+                                toolbar: false,
+                            }}
+                            command="a=2;b=3;c=a+b;"
+                        />
+                    </Row>
+                </div>
+
 
 
 
             </div>
 
             {/* <Modal
-                    visible={modal}
-                    title=" Lugar"
-                    destroyOnClose={true}
-                    width={1000}
-                    // height={1000}
+                open={modal}
+                title=" Lugar"
+                destroyOnClose={true}
+                width={1000}
+                // height={1000}
 
-                    onCancel={abrirCerrarModal}
-                    centered
-                    footer={[
-                        <Button onClick={abrirCerrarModal}>Cancelar</Button>,
+                onCancel={abrirCerrarModal}
+                centered
+                footer={[
+                    <Button onClick={abrirCerrarModal}>Cancelar</Button>,
+
+                ]}
+            >
+                <Form >
+
+                    <Row
+
+                        //  hidden={true} 
+                        justify="center"
+                    >
+                        <Geogebra
+                            appletId="myApplet"
+                            width={500}
+                            height={500}
+                            showToolBar={false}
+                            borderColor="#000000"
+                            showMenuBar={false}
+
+                            // showAlgebraInput={false}
+                            showAlgebraInput={false}
+                            view="Algebra"
+                            settings={{
+                                grid: false,
+                                axes: false,
+                                toolbar: false,
+                            }}
+                        // command="a=2;b=3;c=a+b;"
+                        />
+
+                        <h1>HOLKDLKSA</h1>
+
+                    </Row>
 
 
-                    ]}
-                >
-                    <Form >
 
-                       
-                            <Grafica
-                            
-                            funcionObjetivo={PuntoOptimo}
-                            Puntos={MatrizVertices}
-                            />
-
-
-
-                    </Form>
-                </Modal> */}
+                </Form>
+            </Modal> */}
 
             {/* </React.Fragment> */}
         </>
