@@ -56,6 +56,12 @@
   text-decoration: line-through;
 }
 
+.body {
+  background-image: url('/src/img/Bienvenida.png');
+  height: max-content;
+  background-size: cover;
+}
+
 .Icon {
   cursor: pointer;
   display: flex;

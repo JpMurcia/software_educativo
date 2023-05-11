@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import MyComponent from './MyComponent';
 import Geogebra from 'react-geogebra';
 
-import React, { useRef, useEffect, useState ,Fragment} from 'react';
+import React, { useRef, useEffect, useState, Fragment } from 'react';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ import { TodoProvider } from './page/TodoContext';
 
 import { Calculadora } from './page/Calculadora';
 import { Home } from './page/Home';
-import  App3  from './App3';
+import App3 from './App3';
 
 import { Manual } from './page/Manual';
 import { Public } from './page/public';
@@ -37,17 +37,18 @@ function App() {
 
       <Router>
 
-      <Fragment>
-      <Public />
-      
-       
-      <Routes>
-        <Route path="/" element={<Home />} />
+        <Fragment>
+          <Public />
 
 
-        <Route path="/Home" element={
-          <Home />
-        } />
+          <Routes>
+            <Route path="/" element={<Home />} />
+
+          
+            <Route path="/Home"  element={
+              <Home />
+            } />
+
 
             <Route path="/Calculadora" element={
               <TodoProvider>
@@ -55,32 +56,32 @@ function App() {
               </TodoProvider>
             } />
 
-        <Route path="/Teoria" element={
-          <Teoria />
-        } />
+            <Route path="/Teoria" element={
+              <Teoria />
+            } />
 
-        <Route path="/Manual" element={
-          <Manual />
-        } />
+            <Route path="/Manual" element={
+              <Manual />
+            } />
 
-        <Route path="/Ejercicios" element={
-          <Ejercicios />
-        } />
+            <Route path="/Ejercicios" element={
+              <Ejercicios />
+            } />
 
-        <Route path="/App3" element={
-          <App3 />
-        } />
+            <Route path="/App3" element={
+              <App3 />
+            } />
 
-        {/* <Route path="/Home" element={
+            {/* <Route path="/Home" element={
           <Home />
         } /> */}
 
 
 
-        <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<NotFoundPage />} />
 
-        {/* <Route path="/Login" element={<Login />} /> */}
-        </Routes>
+            {/* <Route path="/Login" element={<Login />} /> */}
+          </Routes>
         </Fragment>
       </Router>
       {/* <header className="App-header">
