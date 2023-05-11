@@ -19,6 +19,7 @@ function metodoGraficov3(coeficientes, terminosIndependientes, tiposRestriccione
   // console.log('vertices',indiceOptimo)
   
   // let valorOptimo = valoresObjetivo[indiceOptimo];
+  console.log('vertices',vertices)
   let coordenadaOptima = vertices[objetivoMaximizar?0:vertices.length-1];
   // let coordenadaOptima = Todosvertices[indiceOptimo];
   // console.log('coordenadaOptimaPRUEBA',coordenadaOptimaPRUEBA)
@@ -61,12 +62,18 @@ function puntoEstaEnRegionFactible(punto, coeficientes, terminosIndependientes, 
 
 function encontrarInterseccion(coeficientes1, terminoIndependiente1, coeficientes2, terminoIndependiente2) {
   let determinante = coeficientes1[0] * coeficientes2[1] - coeficientes1[1] * coeficientes2[0];
-  if (determinante === 0) {
+  if (determinante === 0&& determinante >= 0) {
     return null; // Las rectas son paralelas o coincidentes
   }
   let x = (terminoIndependiente1 * coeficientes2[1] - terminoIndependiente2 * coeficientes1[1]) / determinante;
   let y = (coeficientes1[0] * terminoIndependiente2 - coeficientes2[0] * terminoIndependiente1) / determinante;
-  return [x, y];
+  if (x   >= 0 && y   >= 0) {
+    return [x, y];
+  } else {
+    return null; // Las rectas son paralelas o coincidentes
+    
+  }
+  
 }
 
 
