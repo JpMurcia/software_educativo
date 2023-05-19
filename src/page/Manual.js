@@ -178,8 +178,8 @@ const Manual = () => {
         <div className='parrafoList'>
           <p className='parrafoList'>
             <br />
-            En la tabla inferior se visualia todo los  vértices de la region, El "Estado" se clasifica en tres aquellos que esta dentro de la region factible y 
-            aquellos que no lo estan por las retricciones, entre la region factible se selecciona el "Optimo"
+            En la tabla inferior se visualiza todos los vértices del ejemplo, El "Estado" se clasifica en tres aquellos que está dentro 
+            de la región factible y aquellos que no lo están por las restricciones, entre la región factible se selecciona el "Optimo"
           </p>
           <center>
             <Image width={680}
