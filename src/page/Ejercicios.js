@@ -48,7 +48,7 @@ const InitialObjetivoEjecio1 = [
   }
   ,
   {
-    "id":"Max z = 300x + 700y",
+    "id": "Max z = 300x + 700y",
     "name": "Max z = 300x + 700y",
   }
   ,
@@ -58,9 +58,6 @@ const InitialObjetivoEjecio1 = [
   }
 
 ];
-
-
-
 const InitialRestriccion1Ejecio1 = [
   {
     "id": "8x  +  10y  <=80",
@@ -69,7 +66,7 @@ const InitialRestriccion1Ejecio1 = [
   }
   ,
   {
-    "id":"8x  -  10y  <= 80",
+    "id": "8x  -  10y  <= 80",
     "name": "8x  -  10y  <= 80",
   }
   ,
@@ -79,8 +76,6 @@ const InitialRestriccion1Ejecio1 = [
   }
 
 ];
-
-
 const InitialRestriccion2Ejecio1 = [
   {
     "id": "8x  +  10y  <=80",
@@ -89,13 +84,73 @@ const InitialRestriccion2Ejecio1 = [
   }
   ,
   {
-    "id":"-2x  +  5y  <= 25",
+    "id": "-2x  +  5y  <= 25",
     "name": "-2x  +  5y  <= 25",
   }
   ,
   {
     "id": "2x  +  5y  <= 25",
     "name": "2x  +  5y  <= 25",
+  }
+
+];
+
+
+const InitialObjetivoEjecio3 = [
+  {
+    "id": "Max z = 80x + 50y",
+    "name": "Max z = 80x + 50y",
+
+  }
+  ,
+  {
+    "id": "Max z = 6x + 45y",
+    "name": "Max z = 6x + 45y",
+  }
+  ,
+  {
+    "id": "Max z = 80000x + 50000y",
+    "name": "Max z = 80000x + 50000y",
+  },
+  {
+    "id": "Max z = 50000x + 80y",
+    "name": "Max z = 50000x + 80y",
+  }
+
+];
+const InitialRestriccion1Ejecio3 = [
+  {
+    "id": "x  +  y  <= 6",
+    "name": "x  +  y  <= 6",
+
+  }
+  ,
+  {
+    "id": "1x  +  1y  <= 80",
+    "name": "1x  +  1y  <= 80",
+  }
+  ,
+  {
+    "id": "2x  +  2y  <= 12",
+    "name": "2x  +  2y  <= 12",
+  }
+
+];
+const InitialRestriccion2Ejecio3 = [
+  {
+    "id": "9x  +  5y  <= 12",
+    "name": "9x  +  5y  <= 12",
+
+  }
+  ,
+  {
+    "id": "9x  +  5y  <= 45",
+    "name": "9x  +  5y  <= 45",
+  }
+  ,
+  {
+    "id": "x  +  y  <= 45",
+    "name": "x  +  y  <= 45",
   }
 
 ];
@@ -174,6 +229,16 @@ const Ejercicios = () => {
 
 
   const [MatrizEje2, setMatrizEje2] = useState({});
+
+  const [MatrizEje3, setMatrizEje3] = useState({});
+
+  const [OpcionesEje3Select1, setOpcionesEje3Select1] = useState(InitialObjetivoEjecio3);
+  const [OpcionesEje3Select2, setOpcionesEje3Select2] = useState(InitialRestriccion1Ejecio3);
+  const [OpcionesEje3Select3, setOpcionesEje3Select3] = useState(InitialRestriccion2Ejecio3);
+
+
+  const [resultadoEje2, setResultadozEje2] = useState(true);
+
   const [FuncionObjEje2, setFuncionEje2] = useState(InitialFuncion);
   const [MostarResulEje2, setMostarResulEje2] = useState(true);
   const [TablaSolucionEje2, setTablaSolucionEje2] = useState([]);
@@ -688,45 +753,48 @@ const Ejercicios = () => {
   const applet1Ref = useRef(null);
   const applet2Ref = useRef(null);
 
-  const handleChangeSelect1Eje2 = (data) => {    
-    console.log('selected item', data);   
+  const handleChangeSelect1Eje2 = (data) => {
+    console.log('selected item', data);
     // setFuncionEje2({
     //   ...FuncionObjEje2,
     //   maxi: data.value == 2 ? false : true
     // })
     setMatrizEje2({
       ...MatrizEje2,
-      Select1Eje2:data
+      Select1Eje2: data
     })
 
   };
-  const handleChangeSelect2Eje2 = (data) => {    
-    console.log('selected item', data);   
+  const handleChangeSelect2Eje2 = (data) => {
+    console.log('selected item', data);
     setMatrizEje2({
       ...MatrizEje2,
-      Select2Eje2:data
+      Select2Eje2: data
     })
   };
-  const handleChangeSelect3Eje2 = (data) => {    
-    console.log('selected item', data);   
+  const handleChangeSelect3Eje2 = (data) => {
+    console.log('selected item', data);
     setMatrizEje2({
       ...MatrizEje2,
-      Select3Eje2:data
+      Select3Eje2: data
     })
   };
 
   const onFinishCalculoEje2 = (values) => {
 
 
-    console.log('MatrizEje2',MatrizEje2)
-    
-    if (MatrizEje2.Select1Eje2=="Max z = 300x + 700y" && MatrizEje2.Select2Eje2=="8x  +  10y  <=80"
-    &&MatrizEje2.Select3Eje2=="2x  +  5y  <= 25") {
-    console.log('nice')
-    success('Haz seleccionado los valores correctamente')
+    console.log('MatrizEje2', MatrizEje2)
+
+    if (MatrizEje2.Select1Eje2 == "Max z = 300x + 700y"
+      && MatrizEje2.Select2Eje2 == "8x  +  10y  <=80"
+      && MatrizEje2.Select3Eje2 == "2x  +  5y  <= 25") {
+      console.log('nice')
+      success('Haz seleccionado los valores correctamente')
+  
+      setResultadozEje2(!resultadoEje2)
     } else {
-    console.log('quedo mal')
-    error("No Corresponde los valores con el ejercicion")
+      console.log('quedo mal')
+      error("No Corresponde los valores con el ejercicion")
     }
 
 
@@ -739,45 +807,47 @@ const Ejercicios = () => {
 
 
 
-  const handleChangeSelect1Eje3 = (data) => {    
-    console.log('selected item', data);   
+  const handleChangeSelect1Eje3 = (data) => {
+    console.log('selected item', data);
     // setFuncionEje2({
     //   ...FuncionObjEje2,
     //   maxi: data.value == 2 ? false : true
     // })
-    setMatrizEje2({
-      ...MatrizEje2,
-      Select1Eje2:data
+    setMatrizEje3({
+      ...MatrizEje3,
+      Select1Eje3: data
     })
 
   };
-  const handleChangeSelect2Eje3 = (data) => {    
-    console.log('selected item', data);   
-    setMatrizEje2({
-      ...MatrizEje2,
-      Select2Eje2:data
+  const handleChangeSelect2Eje3 = (data) => {
+    console.log('selected item', data);
+    setMatrizEje3({
+      ...MatrizEje3,
+      Select2Eje3: data
     })
   };
-  const handleChangeSelect3Eje3 = (data) => {    
-    console.log('selected item', data);   
-    setMatrizEje2({
-      ...MatrizEje2,
-      Select3Eje2:data
+  const handleChangeSelect3Eje3 = (data) => {
+    console.log('selected item', data);
+    setMatrizEje3({
+      ...MatrizEje3,
+      Select3Eje3: data
     })
   };
 
   const onFinishCalculoEje3 = (values) => {
 
 
-    console.log('MatrizEje2',MatrizEje2)
-    
-    if (MatrizEje2.Select1Eje2=="Max z = 300x + 700y" && MatrizEje2.Select2Eje2=="8x  +  10y  <=80"
-    &&MatrizEje2.Select3Eje2=="2x  +  5y  <= 25") {
-    console.log('nice')
-    success('Haz seleccionado los valores correctamente')
+    console.log('MatrizEje3', MatrizEje3)
+
+    if ( (MatrizEje3.Select1Eje3 == "Max z = 80x + 50y" || MatrizEje3.Select1Eje3 == "Max z = 80000x + 50000y" )
+    && MatrizEje3.Select2Eje3 == "x  +  y  <= 6"
+      && MatrizEje3.Select3Eje3 == "9x  +  5y  <= 45") {
+      console.log('nice')
+      success('Haz seleccionado los valores correctamente')
+      success('Puedes probar el problema en el Menu de "Calculadora del Método gráfico de programacion lineal" ')
     } else {
-    console.log('quedo mal')
-    error("No Corresponde los valores con el ejercicion")
+      console.log('quedo mal')
+      error("No Corresponde los valores con el ejercicion")
     }
 
 
@@ -900,105 +970,272 @@ const Ejercicios = () => {
           <p className="parrafoList">
 
 
-          <div>
-            Ejercicio 1<br />
-            <br />
-            {/* Cada saco de P se vende en 300 $ y cada saco de Q en 800 $. Si en la granja hay almacenados 80 kg de A y
+            <div>
+              Ejercicio 1<br />
+              <br />
+              {/* Cada saco de P se vende en 300 $ y cada saco de Q en 800 $. Si en la granja hay almacenados 80 kg de A y
           25 kg de B, ¿Cuántos sacos de cada tipo de producto se deben preparar para optimizar los ingresos? */}
 
-            Si designamos por x al número de sacos de pienso de clase P y por y el número de sacos de pienso de clase Q que se han de vender, la función : Z = 300x + 700y
-            representará la cantidad de pesetas obtenidas por la venta de los sacos, y por tanto es la que debemos maximizar.
-            Podemos hacer un pequeño cuadro que nos ayude a obtener las restricciones:
+              Si designamos por x al número de sacos de pienso de clase P y por y el número de sacos de pienso de clase Q que se han de vender, la función : Z = 300x + 700y
+              representará la cantidad de pesetas obtenidas por la venta de los sacos, y por tanto es la que debemos maximizar.
+              Podemos hacer un pequeño cuadro que nos ayude a obtener las restricciones:
+              
+              <div >
+                {/* <a href="https://imgbb.com/"><img src="https://i.ibb.co/QjNzcNt/tabla-Ejericio2.png" alt="tabla-Ejericio2" border="0"></a> */}
+                <br />
+                <Row justify={"center"}>
+                  <Image width={250}
+                    height={150}
+                    //  style={"text-align: center;"} 
 
-            <div >
-              {/* <a href="https://imgbb.com/"><img src="https://i.ibb.co/QjNzcNt/tabla-Ejericio2.png" alt="tabla-Ejericio2" border="0"></a> */}
+                    src="https://i.ibb.co/QjNzcNt/tabla-Ejericio2.png" />
+                </Row>
+
+              </div>
+            
+              <br/>
+
+              Seleccionar la función y restricciones correspondiente 
+              <br/>
+              <br/>
               <br />
-              <Row justify={"center"}>
-                <Image width={250}
-                  height={150}
-                  //  style={"text-align: center;"} 
+              <div justify="center">
+                <Item label="Seleccione la Funcion Objetivo" >
+                  <Select
+                    // showSearch
+                    // labelInValue
+                    name="o_id"
+                    // key={item.key}
+                    // value={item && item.simbolo}
+                    style={{
+                      width: '90%',
+                    }}
+                    onChange={handleChangeSelect1Eje2}
+                  // onSearch={onSearch}
+                  >
+                    {
+                      OpcionesEje1Select1.map((item1) => (
+                        // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                        <Option value={item1.name}> {item1.name}</Option>
+                      ))
+                    }
+                  </Select>
+                </Item>
 
-                  src="https://i.ibb.co/QjNzcNt/tabla-Ejericio2.png" />
-              </Row>
+                <Item label="Seleccione la  primera Resticcion" >
+                  <Select
+                    // showSearch
+                    // labelInValue
+                    name="o_id"
+                    // key={item.key}
+                    // value={item && item.simbolo}
+                    style={{
+                      width: '90%',
+                    }}
+                    onChange={handleChangeSelect2Eje2}
+                  // onSearch={onSearch}
+                  >
+                    {
+                      OpcionesEje1Select2.map((item1) => (
+                        // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                        <Option value={item1.name}> {item1.name}</Option>
+                      ))
+                    }
+                  </Select>
+                </Item>
 
+                <Item label="Seleccione la  segunda  Resticcion" >
+                  <Select
+                    // showSearch
+                    // labelInValue
+                    name="o_id"
+                    // key={item.key}
+                    // value={item && item.simbolo}
+                    style={{
+                      width: '90%',
+                    }}
+                    onChange={handleChangeSelect3Eje2}
+                  // onSearch={onSearch}
+                  >
+                    {
+                      OpcionesEje1Select3.map((item1) => (
+                        // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                        <Option value={item1.name}> {item1.name}</Option>
+                      ))
+                    }
+                  </Select>
+                </Item>
+                {/* <br/> */}
+                <Button type="primary" onClick={onFinishCalculoEje2}>
+                  Resolver
+                </Button>
+                <br />
+
+                {/* <a href="https://imgbb.com/">
+                  <img src="https://i.ibb.co/QpT8gZM/Grafica2.png" alt="Grafica2" border="0">
+                </a>
+                <a href="https://imgbb.com/">
+                  <img src="https://i.ibb.co/KzfnWVQ/tabla2.png" alt="tabla2" border="0">
+                </a> */}
+
+                <Row justify={"center"}>
+                  <Image width={450}
+                    height={350}
+                    hidden={resultadoEje2}
+                    //  style={"text-align: center;"} 
+                    src="https://i.ibb.co/QpT8gZM/Grafica2.png" />
+
+
+
+                </Row>
+                <br />
+                <Row justify={"center"}>
+                  <Image width={550}
+                    height={350}
+                    hidden={resultadoEje2}
+                    //  style={"text-align: center;"} 
+                    src="https://i.ibb.co/KzfnWVQ/tabla2.png" />
+
+
+
+                </Row>
+
+
+
+              </div>
+
+
+              <br />
             </div>
-           
-            <br/>
-            <div justify="center">
-              <Item label="Seleccione la Funcion Objetivo" >
-                <Select
-                  // showSearch
-                  // labelInValue
-                  name="o_id"
-                  // key={item.key}
-                  // value={item && item.simbolo}
-                  style={{
-                    width: '90%',
-                  }}
-                  onChange={ handleChangeSelect1Eje2}
-                // onSearch={onSearch}
-                >
-                  {
-                    OpcionesEje1Select1.map((item1) => (
-                      // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
-                      <Option value={item1.name}> {item1.name}</Option>
-                    ))
-                  }
-                </Select>
-              </Item>
 
-              <Item label="Seleccione la  primera Resticcion" >
-                <Select
-                  // showSearch
-                  // labelInValue
-                  name="o_id"
-                  // key={item.key}
-                  // value={item && item.simbolo}
-                  style={{
-                    width: '90%',
-                  }}
-                  onChange={ handleChangeSelect2Eje2}
-                // onSearch={onSearch}
-                >
-                  {
-                    OpcionesEje1Select2.map((item1) => (
-                      // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
-                      <Option value={item1.name}> {item1.name}</Option>
-                    ))
-                  }
-                </Select>
-              </Item>
 
-              <Item label="Seleccione la  segunda  Resticcion" >
-                <Select
-                  // showSearch
-                  // labelInValue
-                  name="o_id"
-                  // key={item.key}
-                  // value={item && item.simbolo}
-                  style={{
-                    width: '90%',
-                  }}
-                  onChange={ handleChangeSelect3Eje2}
-                // onSearch={onSearch}
-                >
-                  {
-                    OpcionesEje1Select3.map((item1) => (
-                      // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
-                      <Option value={item1.name}> {item1.name}</Option>
-                    ))
-                  }
-                </Select>
-              </Item>
-              {/* <br/> */}
-              <Button type="primary" onClick={onFinishCalculoEje2}>
-                Resolver
-              </Button>
+            <div>
+              Ejercicio 2<br />
+              <br />
+              {/* Cada saco de P se vende en 300 $ y cada saco de Q en 800 $. Si en la granja hay almacenados 80 kg de A y
+          25 kg de B, ¿Cuántos sacos de cada tipo de producto se deben preparar para optimizar los ingresos? */}
+              la empresa "Los Borregon" fabrica mesas y camas de madera, para fabricar una mesa se necesita 1 hora de trabajo y 6 metros cuadrados de madera,
+              de cama necesita 1 hora de trabajo por 5 metros cuadrados de madera. Dispone de 6 horas  y 45 metros cuadrado de madera
+              Cada mesa genera una ganancia de  80.000 pesos y la camas genera 50.000 pesos de ganancia. 
+
+              <br/>
+              <br/>
+              Seleccionar la función y restricciones correspondiente  
+              
+
+
+              <br />
+
+              <br />
+              <div justify="center">
+                <Item label="Seleccione la Funcion Objetivo" >
+                  <Select
+                    // showSearch
+                    // labelInValue
+                    name="o_id"
+                    // key={item.key}
+                    // value={item && item.simbolo}
+                    style={{
+                      width: '90%',
+                    }}
+                    onChange={handleChangeSelect1Eje3}
+                  // onSearch={onSearch}
+                  >
+                    {
+                      OpcionesEje3Select1.map((item1) => (
+                        // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                        <Option value={item1.name}> {item1.name}</Option>
+                      ))
+                    }
+                  </Select>
+                </Item>
+
+                <Item label="Seleccione la  primera Resticcion" >
+                  <Select
+                    // showSearch
+                    // labelInValue
+                    name="o_id"
+                    // key={item.key}
+                    // value={item && item.simbolo}
+                    style={{
+                      width: '90%',
+                    }}
+                    onChange={handleChangeSelect2Eje3}
+                  // onSearch={onSearch}
+                  >
+                    {
+                      OpcionesEje3Select2.map((item1) => (
+                        // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                        <Option value={item1.name}> {item1.name}</Option>
+                      ))
+                    }
+                  </Select>
+                </Item>
+
+                <Item label="Seleccione la  segunda  Resticcion" >
+                  <Select
+                    // showSearch
+                    // labelInValue
+                    name="o_id"
+                    // key={item.key}
+                    // value={item && item.simbolo}
+                    style={{
+                      width: '90%',
+                    }}
+                    onChange={handleChangeSelect3Eje3}
+                  // onSearch={onSearch}
+                  >
+                    {
+                      OpcionesEje3Select3.map((item1) => (
+                        // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                        <Option value={item1.name}> {item1.name}</Option>
+                      ))
+                    }
+                  </Select>
+                </Item>
+                {/* <br/> */}
+                <Button type="primary" onClick={onFinishCalculoEje3}>
+                  Resolver
+                </Button>
+                <br />
+
+                {/* <a href="https://imgbb.com/">
+                  <img src="https://i.ibb.co/QpT8gZM/Grafica2.png" alt="Grafica2" border="0">
+                </a>
+                <a href="https://imgbb.com/">
+                  <img src="https://i.ibb.co/KzfnWVQ/tabla2.png" alt="tabla2" border="0">
+                </a> */}
+
+                <Row justify={"center"}>
+                  <Image width={450}
+                    height={350}
+                    hidden={resultadoEje2}
+                    //  style={"text-align: center;"} 
+                    src="https://i.ibb.co/QpT8gZM/Grafica2.png" />
+
+
+
+                </Row>
+                <br />
+                <Row justify={"center"}>
+                  <Image width={550}
+                    height={350}
+                    hidden={resultadoEje2}
+                    //  style={"text-align: center;"} 
+                    src="https://i.ibb.co/KzfnWVQ/tabla2.png" />
+
+
+
+                </Row>
+
+
+
+              </div>
+
+
+              <br />
             </div>
 
-         
-            <br />
-            </div>
 
             <br />Ejercicio 3<br />
 
@@ -1223,7 +1460,7 @@ const Ejercicios = () => {
 
             <br />
             <br />
-         
+
             {/* <div justify="center" >
 
 
