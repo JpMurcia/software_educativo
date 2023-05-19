@@ -20,8 +20,9 @@ const Teoria = () => {
         
         </h1>
         <p className="parrafo">
+        <p className="parrafoList">
           <br/>
-          El método grafico sirve para resolver, con una precisión aceptable, una gran parte de los problemas de optimización lineal de dos variables. 
+          &nbsp;El método grafico sirve para resolver, con una precisión aceptable, una gran parte de los problemas de optimización lineal de dos variables. 
           Tiene dos etapas importantes, la primera es la determinación de la región admisible o realizable o factible (el conjunto de puntos que cumplen todas las restricciones) y la segunda es la búsqueda 
           del punto óptimo (o de los puntos óptimos) en la región admisible. 
            <br/>
@@ -32,6 +33,7 @@ const Teoria = () => {
            Una vez hallada la región admisible se procede a buscar el óptimo. Se necesita entonces saber cómo varía la función objetivo y, sobre todo, en qué dirección mejora. Una manera sencilla consiste en dar dos valores 
            arbitrarios diferentes a z y dibujar las rectas (paralelas) correspondientes. Esto permite saber en qué sentido mejora el valor de z. Para cualquier otro valor de z, la recta correspondiente será paralela. 
            Únicamente queda por encontrar una de estas rectas paralelas, con el mejor valor posible de z y que pase al menos por un punto de la región admisible.
+           </p>
         </p>
       </div>
      

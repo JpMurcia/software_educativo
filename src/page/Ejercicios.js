@@ -1,7 +1,7 @@
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 // import { useState } from 'react';
-import React, { useState, useEffect, useContext ,useRef} from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { metodoGraficov3 } from './metodoGraficov3';
 import Geogebra from 'react-geogebra';
 
@@ -39,6 +39,66 @@ const InitialSimboloRestricciones = [
 
 ];
 
+
+const InitialObjetivoEjecio1 = [
+  {
+    "id": "Max z = 300x + 300y",
+    "name": "Max z = 300x + 300y",
+
+  }
+  ,
+  {
+    "id":"Max z = 300x + 700y",
+    "name": "Max z = 300x + 700y",
+  }
+  ,
+  {
+    "id": "Max z = 700x + 700y",
+    "name": "Max z = 700x + 700y",
+  }
+
+];
+
+
+
+const InitialRestriccion1Ejecio1 = [
+  {
+    "id": "8x  +  10y  <=80",
+    "name": "8x  +  10y  <=80",
+
+  }
+  ,
+  {
+    "id":"8x  -  10y  <= 80",
+    "name": "8x  -  10y  <= 80",
+  }
+  ,
+  {
+    "id": "5x  +  10y  <= 80",
+    "name": "5x  +  10y  <= 80",
+  }
+
+];
+
+
+const InitialRestriccion2Ejecio1 = [
+  {
+    "id": "8x  +  10y  <=80",
+    "name": "8x  +  10y  <=80",
+
+  }
+  ,
+  {
+    "id":"-2x  +  5y  <= 25",
+    "name": "-2x  +  5y  <= 25",
+  }
+  ,
+  {
+    "id": "2x  +  5y  <= 25",
+    "name": "2x  +  5y  <= 25",
+  }
+
+];
 
 const Ejercicios = () => {
   const [current, setCurrent] = useState('mail');
@@ -107,7 +167,13 @@ const Ejercicios = () => {
 
 
 
-  const [MatrizEje2, setMatrizEje2] = useState(InitialMatriz);
+  const [OpcionesEje1Select1, setOpcionesEje1Select1] = useState(InitialObjetivoEjecio1);
+  const [OpcionesEje1Select2, setOpcionesEje1Select2] = useState(InitialRestriccion1Ejecio1);
+  const [OpcionesEje1Select3, setOpcionesEje1Select3] = useState(InitialRestriccion2Ejecio1);
+
+
+
+  const [MatrizEje2, setMatrizEje2] = useState({});
   const [FuncionObjEje2, setFuncionEje2] = useState(InitialFuncion);
   const [MostarResulEje2, setMostarResulEje2] = useState(true);
   const [TablaSolucionEje2, setTablaSolucionEje2] = useState([]);
@@ -324,6 +390,9 @@ const Ejercicios = () => {
 
   };
 
+
+
+
   const onFinishCalculoEje1 = (values) => {
 
 
@@ -369,7 +438,7 @@ const Ejercicios = () => {
             // const element = array[index];
             console.log("COICIDE LA FUNCION MATRIZ")
           } else {
-            error("No Corresponde los valores con ejercicion")
+            error("No Corresponde los valores con el ejercicion")
             return null;
           }
 
@@ -377,7 +446,7 @@ const Ejercicios = () => {
 
       } else {
 
-        error("No Corresponde los valores con ejercicion")
+        error("No Corresponde los valores con el ejercicion")
         return null;
 
       }
@@ -613,253 +682,102 @@ const Ejercicios = () => {
     }
 
 
-      console.log('matrizActual', matrizActual2)
+    console.log('matrizActual', matrizActual2)
     setMatrizEje2(matrizActual2)
   };
   const applet1Ref = useRef(null);
   const applet2Ref = useRef(null);
 
+  const handleChangeSelect1Eje2 = (data) => {    
+    console.log('selected item', data);   
+    // setFuncionEje2({
+    //   ...FuncionObjEje2,
+    //   maxi: data.value == 2 ? false : true
+    // })
+    setMatrizEje2({
+      ...MatrizEje2,
+      Select1Eje2:data
+    })
+
+  };
+  const handleChangeSelect2Eje2 = (data) => {    
+    console.log('selected item', data);   
+    setMatrizEje2({
+      ...MatrizEje2,
+      Select2Eje2:data
+    })
+  };
+  const handleChangeSelect3Eje2 = (data) => {    
+    console.log('selected item', data);   
+    setMatrizEje2({
+      ...MatrizEje2,
+      Select3Eje2:data
+    })
+  };
+
   const onFinishCalculoEje2 = (values) => {
 
 
-    try {
+    console.log('MatrizEje2',MatrizEje2)
+    
+    if (MatrizEje2.Select1Eje2=="Max z = 300x + 700y" && MatrizEje2.Select2Eje2=="8x  +  10y  <=80"
+    &&MatrizEje2.Select3Eje2=="2x  +  5y  <= 25") {
+    console.log('nice')
+    success('Haz seleccionado los valores correctamente')
+    } else {
+    console.log('quedo mal')
+    error("No Corresponde los valores con el ejercicion")
+    }
+
+
+  };
+
+  //////////////////////////////////////////
+  ////////////// EJECICIO 2 ////////////////
+  //////////////////////////////////////////
 
 
 
 
-      console.log('MATRIZ ENVIADA', MatrizEje2)
-      console.log('FuncionObj ENVIADA', FuncionObjEje2)
-      let ResulEje2 = {
-        maxi: true,
-        x: 300,
-        y: 700
-      }
+  const handleChangeSelect1Eje3 = (data) => {    
+    console.log('selected item', data);   
+    // setFuncionEje2({
+    //   ...FuncionObjEje2,
+    //   maxi: data.value == 2 ? false : true
+    // })
+    setMatrizEje2({
+      ...MatrizEje2,
+      Select1Eje2:data
+    })
 
-      let ResulMatrizEje2 = [
-        {
-          key: 0,
-          x: '8',
-          y: '10',
-          simbolo: '<=',
-          restriccion: "80"
-        },
-        {
-          key: 1,
-          x: '2',
-          y: '5',
-          simbolo: '<=',
-          restriccion: "25"
-        }
-      ]
-      if (FuncionObjEje2.maxi === true &&
-        parseFloat(FuncionObjEje2.x) === ResulEje2.x &&
-        parseFloat(FuncionObjEje2.y) === ResulEje2.y) {
-        console.log("COICIDE LA FUNCION OBJETIVO")
-        for (let index = 0; index < MatrizEje2.length; index++) {
-          if (MatrizEje2[index].key === ResulMatrizEje2[index].key &&
-            MatrizEje2[index].x === ResulMatrizEje2[index].x &&
-            MatrizEje2[index].y === ResulMatrizEje2[index].y &&
-            MatrizEje2[index].simbolo === ResulMatrizEje2[index].simbolo &&
-            MatrizEje2[index].restriccion === ResulMatrizEje2[index].restriccion) {
-            // const element = array[index];
-            console.log("COICIDE LA FUNCION MATRIZ")
-          } else {
-            error("No Corresponde los valores con ejercicion")
-            return null;
-          }
+  };
+  const handleChangeSelect2Eje3 = (data) => {    
+    console.log('selected item', data);   
+    setMatrizEje2({
+      ...MatrizEje2,
+      Select2Eje2:data
+    })
+  };
+  const handleChangeSelect3Eje3 = (data) => {    
+    console.log('selected item', data);   
+    setMatrizEje2({
+      ...MatrizEje2,
+      Select3Eje2:data
+    })
+  };
 
-        }
-
-      } else {
-
-        error("No Corresponde los valores con ejercicion")
-        return null;
-
-      }
-
-      let n2 = 2; // Número de restricciones
-      let A2 = []; // Matriz de coeficientes de las restricciones
-      let b2 = []; // Vector de términos independientes de las restricciones
-      let ListaResticio = []; // Matriz de coeficientes de las restricciones
-      let RestriccionSibolos2 = []; // Vector de términos independientes de las restricciones
+  const onFinishCalculoEje3 = (values) => {
 
 
-
-      n2 = MatrizEje2.length;
-
-      for (let index = 0; index < MatrizEje2.length; index++) {
-        // const element = array[index];
-        A2.push([MatrizEje2[index].x, MatrizEje2[index].y])
-        ListaResticio.push(MatrizEje2[index].x + 'x + ' + MatrizEje2[index].y + 'y ' + MatrizEje2[index].simbolo + ' ' + MatrizEje2[index].restriccion)
-        b2.push(MatrizEje2[index].restriccion)
-        RestriccionSibolos2.push(MatrizEje2[index].simbolo)
-
-      }
-
-
-      let objetivoMaximizar = FuncionObjEje2.maxi;
-      let funcionObjetivo3 = [FuncionObjEje2.x, FuncionObjEje2.y];
-      let funcionObjetivoTexto = (FuncionObjEje2.maxi ? 'Max ' : 'Min ') + "" + FuncionObjEje2.x + 'x + ' + FuncionObjEje2.y + 'y'
-      console.log('A2', A2)
-      console.log('b2', b2)
-      console.log('RestriccionSibolos2', RestriccionSibolos2)
-      console.log('ListaResticio', ListaResticio)
-      console.log('funcionObjetivoTexto', funcionObjetivoTexto)
-      console.log('objetivoMaximizar', objetivoMaximizar)
-      let resultado2 = metodoGraficov3(A2, b2, RestriccionSibolos2, funcionObjetivo3, objetivoMaximizar);
-      let resultado3 = metodoGraficov3(A2, b2, RestriccionSibolos2, funcionObjetivo3, objetivoMaximizar);
-      let listaPuntoFactibleV = resultado2.Todosvertices;
-      let listaPuntoFactible = []
-      let listaPuntoTexto = []
-      for (let index = 0; index < resultado2.Todosvertices.length; index++) {
-        listaPuntoFactible.push(puntoEstaEnRegionFactible(resultado2.Todosvertices[index], A2, b2, RestriccionSibolos2))
-        if (!puntoEstaEnRegionFactible(resultado2.Todosvertices[index], A2, b2, RestriccionSibolos2)) {
-          listaPuntoFactibleV.splice(index, 1);
-        }
-      }
-      console.log('resultado2.Todosvertices2', resultado3.Todosvertices);
-      console.log('FuncionObjEje2', FuncionObjEje2);
-      console.log('FuncionObjEje2', FuncionObjEje2.x);
-      console.log(`FuncionObjEje2  ${FuncionObjEje2.x}`);
-      for (let index = 0; index < resultado3.Todosvertices.length; index++) {
-        let calculo = parseFloat(FuncionObjEje2.x) * parseFloat(resultado3.Todosvertices[index][0]) + parseFloat(FuncionObjEje2.y) * parseFloat(resultado3.Todosvertices[index][1]);
-        let texto = puntoEstaEnRegionFactible(resultado3.Todosvertices[index], A2, b2, RestriccionSibolos2) ? 'Factible' : 'No Factible';
-        listaPuntoTexto.push({
-          punto: index,
-          coordenadas: `(${resultado3.Todosvertices[index][0]},${resultado3.Todosvertices[index][1]})`,
-          funcionObjeto: ` ${FuncionObjEje2.x}(${resultado3.Todosvertices[index][0]}) + ${FuncionObjEje2.y}(${resultado3.Todosvertices[index][1]}) = ${calculo}`
-          , optimo: texto
-        })
-      }
-      listaPuntoTexto.push({
-        punto: listaPuntoTexto.length,
-        coordenadas: `(${resultado2.coordenadaOptima[0]},${resultado2.coordenadaOptima[1]})`,
-        funcionObjeto: ` ${FuncionObjEje2.x}(${resultado2.coordenadaOptima[0]}) + ${FuncionObjEje2.y}(${resultado2.coordenadaOptima[1]}) = ${resultado2.valoresObjetivo[0]}`
-        , optimo: 'Optimo'
-      })
-
-      console.log('Vertices Factibles', listaPuntoFactible)
-      console.log(' listaPuntoTexto', listaPuntoTexto)
-      console.log('Vertices listaPuntoFactibleV', listaPuntoFactibleV)
-      listaPuntoFactibleV.push([resultado2.coordenadaOptima[0], resultado2.coordenadaOptima[1]])
-
-      setTablaSolucionEje2(listaPuntoTexto);
-      setMatrizVertices(resultado3.Todosvertices);
-
-      setFuncionObjTexEje2(funcionObjetivoTexto)
-      setRestriccionTex(ListaResticio)
-      setMatrizVerticesFactible(listaPuntoFactibleV);
-
-
-      setPuntoOptimo({
-        x: resultado2.coordenadaOptima[0],
-        y: resultado2.coordenadaOptima[1]
-      })
-      ////////////////////////////////////////////////////////////
-      ////////////////////////////////////////////////////////////
-      ////////////////////////////////////////////////////////////
-      // const app = window.ggbApplet;
-      const app2 = window.ggbApplet;
-      app2.reset()
-
-
-
-      listaPuntoFactibleV.sort(compararCoordenadas);
-      listaPuntoFactibleV.push(listaPuntoFactibleV[0])
-      console.log('listaPuntoFactibleV ORDENADO', listaPuntoFactibleV)
-
-      app2.evalCommand(`Optimo =(${resultado2.coordenadaOptima[0]},${resultado2.coordenadaOptima[1]})`);
-      let lista = ''
-      for (let index = 0; index < listaPuntoFactibleV.length; index++) {
-
-        lista = lista + `(${listaPuntoFactibleV[index][0]},${listaPuntoFactibleV[index][1]})`
-      }
-      for (let index = 0; index < resultado3.Todosvertices.length; index++) {
-
-        app2.evalCommand(`P${index}=(${resultado3.Todosvertices[index][0]},${resultado3.Todosvertices[index][1]})`);
-
-      }
-      const result = lista.replace(/\)\(/g, "),(");
-
-      console.log(result); // (0,0),(6,0),(0,6),(5,0)
-      console.log('lista Poligono', lista)
-
-      app2.evalCommand(`AreaFactible=Polygon(${result})`);
-
-      let index2 = 0;
-      for (let index = 1; index < resultado3.Todosvertices.length; index += 2) {
-        app2.evalCommand(`Resticcion${index2 + 1}=Line((${resultado3.Todosvertices[index][0]},${resultado3.Todosvertices[index][1]}),(${resultado3.Todosvertices[index + 1][0]},${resultado3.Todosvertices[index + 1][1]}))`);
-        index2++;
-      }
-      console.log('lista MatrizVerticesFactible', MatrizVerticesFactible)
-
-      if (resultado2.valoresObjetivo[0] === 0) {
-        error('No se encontro una soluccion Optima')
-        // setMostarResul(false)
-        setMostarResulEje2(true)
-
-        app2.reset()
-
-      } else {
-
-        success('Se ha calculado Sactifactoriamente')
-        setMostarResulEje2(!MostarResulEje2)
-        abrirCerrarModal();
-
-      }
-
-
-// const app1 = new window.GGBApplet({
-//       "appName": "graphing",
-//       "width": 500,
-//       "height": 500,
-//       "showToolBar": true,
-//       "showMenuBar": true,
-//       "showAlgebraInput": true,
-//       "showResetIcon": true,
-//       "enableLabelDrags": true,
-//       "enableShiftDragZoom": true,
-//       "enableRightClick": true,
-//       "enableCAS": true,
-//       "borderColor": "#ddd",
-//       "errorDialogsActive": true,
-//       "useBrowserForJS": false,
-//       "preventFocus": false,
-//       "appletOnLoad": () => {
-//         app1.evalCommand("f(x)=x^2");
-//         app1.evalCommand("a=1");
-//         app1.evalCommand("g(x)=a*x");
-//         app1.evalCommand("f2(x)=g(x)-f(x)");
-//       }
-//     }, true);
-
-//     app1.inject(applet1Ref.current);
-
-//     const app3 = new window.GGBApplet({
-//       "appName": "graphing",
-//       "width": 500,
-//       "height": 500,
-//       "showToolBar": true,
-//       "showMenuBar": true,
-//       "showAlgebraInput": true,
-//       "showResetIcon": true,
-//       "enableLabelDrags": true,
-//       "enableShiftDragZoom": true,
-//       "enableRightClick": true,
-//       "enableCAS": true,
-//       "borderColor": "#ddd",
-//       "errorDialogsActive": true,
-//       "useBrowserForJS": false,
-//       "preventFocus": false,
-//       "appletOnLoad": () => {
-//         app3.evalCommand("f(x)=sin(x)");
-//       }
-//     }, true);
-
-//     app3.inject(applet2Ref.current);
-
-    } catch (error) {
-      error('Se presento un Error');
+    console.log('MatrizEje2',MatrizEje2)
+    
+    if (MatrizEje2.Select1Eje2=="Max z = 300x + 700y" && MatrizEje2.Select2Eje2=="8x  +  10y  <=80"
+    &&MatrizEje2.Select3Eje2=="2x  +  5y  <= 25") {
+    console.log('nice')
+    success('Haz seleccionado los valores correctamente')
+    } else {
+    console.log('quedo mal')
+    error("No Corresponde los valores con el ejercicion")
     }
 
 
@@ -891,7 +809,7 @@ const Ejercicios = () => {
 
 
 
- 
+
   function compararCoordenadas(a, b) {
     if (a[0] < b[0]) {
       return -1;
@@ -976,145 +894,254 @@ const Ejercicios = () => {
         </h1>
         <p className="parrafoList">
           <br />
-          Ejercicio 1<br />
-          <br />
-          Un comenciante acude a cierto mercado a comprar narajas con 5000$. Le ofecen dos tipos de naranjas:
-          las de tipo A a 5$ el Kg y las de tipo B a 8$ el Kg.
-          Sabemos que solo dispone en su furgoneta de espacion para transportar 700 kg de naranjas maximo
-          y que piensa vender el kilo de naranga de tipoa A a 5.8$ y el de tipo B a 9$ ¿Cuantos Kilogramos
-          de narajas de cada tipo deberia comprar para obtener el Beneficio maximo?
-          <br />
-          la funcion que da el Beneficio, sujeta a las restricicones anteriore es:
-          <br />Z = f(x,y) = (5.8 - 5)x + (9-8) = 0.8 + 0.1<br />
-          Sujeto a:<br />
-          x+y &lt;= 700 <br />
-          5x+8y &lt;= 5000<br />
 
-          <div justify="center" >
 
+
+          <p className="parrafoList">
+
+
+          <div>
+            Ejercicio 1<br />
             <br />
+            {/* Cada saco de P se vende en 300 $ y cada saco de Q en 800 $. Si en la granja hay almacenados 80 kg de A y
+          25 kg de B, ¿Cuántos sacos de cada tipo de producto se deben preparar para optimizar los ingresos? */}
+
+            Si designamos por x al número de sacos de pienso de clase P y por y el número de sacos de pienso de clase Q que se han de vender, la función : Z = 300x + 700y
+            representará la cantidad de pesetas obtenidas por la venta de los sacos, y por tanto es la que debemos maximizar.
+            Podemos hacer un pequeño cuadro que nos ayude a obtener las restricciones:
+
+            <div >
+              {/* <a href="https://imgbb.com/"><img src="https://i.ibb.co/QjNzcNt/tabla-Ejericio2.png" alt="tabla-Ejericio2" border="0"></a> */}
+              <br />
+              <Row justify={"center"}>
+                <Image width={250}
+                  height={150}
+                  //  style={"text-align: center;"} 
+
+                  src="https://i.ibb.co/QjNzcNt/tabla-Ejericio2.png" />
+              </Row>
+
+            </div>
+           
+            <br/>
+            <div justify="center">
+              <Item label="Seleccione la Funcion Objetivo" >
+                <Select
+                  // showSearch
+                  // labelInValue
+                  name="o_id"
+                  // key={item.key}
+                  // value={item && item.simbolo}
+                  style={{
+                    width: '90%',
+                  }}
+                  onChange={ handleChangeSelect1Eje2}
+                // onSearch={onSearch}
+                >
+                  {
+                    OpcionesEje1Select1.map((item1) => (
+                      // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                      <Option value={item1.name}> {item1.name}</Option>
+                    ))
+                  }
+                </Select>
+              </Item>
+
+              <Item label="Seleccione la  primera Resticcion" >
+                <Select
+                  // showSearch
+                  // labelInValue
+                  name="o_id"
+                  // key={item.key}
+                  // value={item && item.simbolo}
+                  style={{
+                    width: '90%',
+                  }}
+                  onChange={ handleChangeSelect2Eje2}
+                // onSearch={onSearch}
+                >
+                  {
+                    OpcionesEje1Select2.map((item1) => (
+                      // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                      <Option value={item1.name}> {item1.name}</Option>
+                    ))
+                  }
+                </Select>
+              </Item>
+
+              <Item label="Seleccione la  segunda  Resticcion" >
+                <Select
+                  // showSearch
+                  // labelInValue
+                  name="o_id"
+                  // key={item.key}
+                  // value={item && item.simbolo}
+                  style={{
+                    width: '90%',
+                  }}
+                  onChange={ handleChangeSelect3Eje2}
+                // onSearch={onSearch}
+                >
+                  {
+                    OpcionesEje1Select3.map((item1) => (
+                      // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                      <Option value={item1.name}> {item1.name}</Option>
+                    ))
+                  }
+                </Select>
+              </Item>
+              {/* <br/> */}
+              <Button type="primary" onClick={onFinishCalculoEje2}>
+                Resolver
+              </Button>
+            </div>
+
+         
             <br />
-            {contextHolder}
+            </div>
+
+            <br />Ejercicio 3<br />
+
+
+            {/* &nbsp;&nbsp;Ejercicio 1<br /> */}
             <br />
+            Un comenciante acude a cierto mercado a comprar narajas con 5000$. Le ofecen
+            dos tipos de naranjas:  las de tipo A a 5$ el Kg y las de tipo B a 8$ el Kg. Sabemos
+            que solo dispone en su furgoneta de espacion para transportar 700 kg de naranjas
+            maximo y que piensa vender el kilo de naranga de tipoa A a 5.8$ y el de tipo B a 9$ ¿Cuantos Kilogramos
+            de narajas de cada tipo deberia comprar para obtener el Beneficio maximo?
+            <br />
+            la funcion que da el Beneficio, sujeta a las restricicones anteriore es:
+            <br />Z = f(x,y) = (5.8 - 5)x + (9-8) = 0.8 + 0.1<br />
+            Sujeto a:<br />
+            x+y &lt;= 700 <br />
+            5x+8y &lt;= 5000<br />
 
-            <Row justify="center">
+            <div justify="center" >
 
-              <Col span={4}>
+              <br />
+              <br />
+              {contextHolder}
+              <br />
 
-                <Item >
-                  <Select
-                    showSearch
-                    labelInValue
-                    name="o_id"
+              <Row justify="center">
 
-                    // value={item && item.simbolo}
-                    style={{
-                      width: '100%',
-                    }}
-                    onChange={(e) => handleChangeSelectMaxiMiniEje1(e)}
-                  // onSearch={onSearch}
-                  >
-                    {
-                      InitialMaxiMini.map((item1) => (
-                        // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
-                        <Option key={item1.id} value={item1.key}> {item1.nameSimbolo}</Option>
-                      ))
-                    }
-                  </Select>
-                </Item>
-              </Col>
+                <Col span={4}>
+
+                  <Item >
+                    <Select
+                      showSearch
+                      labelInValue
+                      name="o_id"
+
+                      // value={item && item.simbolo}
+                      style={{
+                        width: '100%',
+                      }}
+                      onChange={(e) => handleChangeSelectMaxiMiniEje1(e)}
+                    // onSearch={onSearch}
+                    >
+                      {
+                        InitialMaxiMini.map((item1) => (
+                          // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                          <Option key={item1.id} value={item1.key}> {item1.nameSimbolo}</Option>
+                        ))
+                      }
+                    </Select>
+                  </Item>
+                </Col>
 
 
-            </Row>
-
-
-
-
-            <Row justify="center">
-              <Col span={4}>
-                <Item label="FUNCION OBJETIVO" >
-                  {/* <Input name='x' onChange={handleChange} /> */}
-                </Item>
-
-              </Col>
-              <Col span={5}>
-                <Item label="x" >
-                  <Input name='x' onChange={handleChangeGeneralEje1} />
-                </Item>
-
-              </Col>
-              <Col span={5}>
-
-                <Item label='y'>
-                  <Input name='y' onChange={handleChangeGeneralEje1} />
-                </Item>
-              </Col>
-
-            </Row>
+              </Row>
 
 
 
-            {MatrizEje1.map(item => (
 
-              <>
-                <Row >
-                  <Col span={12}   >
-                    Restriccion {item.key + 1}
+              <Row justify="center">
+                <Col span={5}>
+                  <Item label="FUNCION OBJETIVO" >
+                    {/* <Input name='x' onChange={handleChange} /> */}
+                  </Item>
 
-                  </Col>
+                </Col>
+                <Col span={8}>
+                  <Item label="x" >
+                    <Input name='x' onChange={handleChangeGeneralEje1} />
+                  </Item>
 
-                </Row>
-                <Row justify="center">
-                  <Col span={5} >
-                    <Item label="x" key={item.key}  >
-                      <Input name={item.key} key={item.key} title={'x'} values={item & item.x} onChange={(e) => handleChangeEje1(e, item)} />
-                    </Item>
-                  </Col>
-                  <Col span={5} key={item.key}>
-                    <Item label="+y" key={item.key}>
-                      <Input name={item.key} key={item.key} title={'y'} values={item & item.y} onChange={(e) => handleChangeEje1(e, item)} />
-                    </Item>
-                  </Col>
-                  <Col span={1}>
-                    <Item  >
-                      <Select
-                        showSearch
-                        labelInValue
-                        name="o_id"
-                        key={item.key}
-                        // value={item && item.simbolo}
-                        style={{
-                          width: '90%',
-                        }}
-                        onChange={(e) => handleChangeSelectRestriccionEje1(e, item)}
-                      // onSearch={onSearch}
-                      >
-                        {
-                          Simbolo.map((item1) => (
-                            // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
-                            <Option key={item1.id} title={item.key} value={item1.key}> {item1.nameSimbolo}</Option>
-                          ))
-                        }
-                      </Select>
-                    </Item>
-                  </Col>
-                  <Col span={2}>
-                    <Item >
-                      <Input name={item.key} key={item.key} title={'restriccion'} values={item & item.restriccion} onChange={(e) => handleChangeEje1(e, item)} />
-                    </Item>
+                </Col>
+                <Col span={9}>
 
-                  </Col>
-                </Row>
-              </>
-            ))}
+                  <Item label='y'>
+                    <Input name='y' onChange={handleChangeGeneralEje1} />
+                  </Item>
+                </Col>
+
+              </Row>
 
 
 
-            <Button type="primary" onClick={onFinishCalculoEje1}>
-              Resolver
-            </Button>
+              {MatrizEje1.map(item => (
 
-            {/* <Button type="primary" onClick={onAdd}>
+                <>
+                  <Row >
+                    <Col span={12}   >
+                      Restriccion {item.key + 1}
+
+                    </Col>
+
+                  </Row>
+                  <Row justify="center">
+                    <Col span={7} >
+                      <Item label="x" key={item.key}  >
+                        <Input name={item.key} key={item.key} title={'x'} values={item & item.x} onChange={(e) => handleChangeEje1(e, item)} />
+                      </Item>
+                    </Col>
+                    <Col span={7} key={item.key}>
+                      <Item label="+y" key={item.key}>
+                        <Input name={item.key} key={item.key} title={'y'} values={item & item.y} onChange={(e) => handleChangeEje1(e, item)} />
+                      </Item>
+                    </Col>
+                    <Col span={2}>
+                      <Item  >
+                        <Select
+                          showSearch
+                          labelInValue
+                          name="o_id"
+                          key={item.key}
+                          // value={item && item.simbolo}
+                          style={{
+                            width: '90%',
+                          }}
+                          onChange={(e) => handleChangeSelectRestriccionEje1(e, item)}
+                        // onSearch={onSearch}
+                        >
+                          {
+                            Simbolo.map((item1) => (
+                              // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                              <Option key={item1.id} title={item.key} value={item1.key}> {item1.nameSimbolo}</Option>
+                            ))
+                          }
+                        </Select>
+                      </Item>
+                    </Col>
+                    <Col span={3}>
+                      <Item >
+                        <Input name={item.key} key={item.key} title={'restriccion'} values={item & item.restriccion} onChange={(e) => handleChangeEje1(e, item)} />
+                      </Item>
+
+                    </Col>
+                  </Row>
+                </>
+              ))}
+
+
+
+              <Button type="primary" onClick={onFinishCalculoEje1}>
+                Resolver
+              </Button>
+
+              {/* <Button type="primary" onClick={onAdd}>
               Adicionar
             </Button>
 
@@ -1122,49 +1149,49 @@ const Ejercicios = () => {
               Quitar
             </Button> */}
 
-            {/* </Form> */}
-            {/* <h1>Calculadoraaaa</h1> */}
+              {/* </Form> */}
+              {/* <h1>Calculadoraaaa</h1> */}
 
 
 
-            <br />
+              <br />
 
-            <div hidden={MostarResulEje1} >
+              <div hidden={MostarResulEje1} >
 
-              <Row
+                <Row
 
-                justify="center"
-              >
-                <Geogebra
-                  appletId="myApplet"
-                  width={500}
-                  height={500}
-                  showToolBar={false}
-                  borderColor="#000000"
-                  showMenuBar={false}
-                  // showAlgebraInput={false}
-                  showAlgebraInput={false}
-                  errorDialogsActive={false}
-                  view="Algebra"
-                  settings={{
-                    grid: false,
-                    axes: false,
-                    toolbar: false,
-                  }}
-                  command="a=2;b=3;c=a+b;"
-                />
-              </Row>
+                  justify="center"
+                >
+                  <Geogebra
+                    appletId="myApplet"
+                    width={500}
+                    height={500}
+                    showToolBar={false}
+                    borderColor="#000000"
+                    showMenuBar={false}
+                    // showAlgebraInput={false}
+                    showAlgebraInput={false}
+                    errorDialogsActive={false}
+                    view="Algebra"
+                    settings={{
+                      grid: false,
+                      axes: false,
+                      toolbar: false,
+                    }}
+                    command="a=2;b=3;c=a+b;"
+                  />
+                </Row>
+              </div>
+              <div hidden={MostarResulEje1}>
+                <Table dataSource={TablaSolucionEje1} columns={columnsEjec1} />
+
+              </div>
+
+
+
             </div>
-            <div hidden={MostarResulEje1}>
-              <Table dataSource={TablaSolucionEje1} columns={columnsEjec1} />
 
-            </div>
-
-
-
-          </div>
-
-          {/* <Modal
+            {/* <Modal
             open={modal}
             title=" Lugar"
             destroyOnClose={true}
@@ -1194,208 +1221,178 @@ const Ejercicios = () => {
           </Modal> */}
 
 
-          <br />
-          <br />
-          Ejercicio 2<br />
-          <br />
-          {/* Cada saco de P se vende en 300 $ y cada saco de Q en 800 $. Si en la granja hay almacenados 80 kg de A y
-          25 kg de B, ¿Cuántos sacos de cada tipo de producto se deben preparar para optimizar los ingresos? */}
-
-          Si designamos por x al número de sacos de pienso de clase P y por y el número de sacos de pienso de clase Q que se han de vender, la función : Z = 300x + 700y
-          representará la cantidad de pesetas obtenidas por la venta de los sacos, y por tanto es la que debemos maximizar.
-          Podemos hacer un pequeño cuadro que nos ayude a obtener las restricciones:
-        
-          <div >
-            {/* <a href="https://imgbb.com/"><img src="https://i.ibb.co/QjNzcNt/tabla-Ejericio2.png" alt="tabla-Ejericio2" border="0"></a> */}
-            <br/>
-            <Row justify={"center"}>
-              <Image width={250}
-                height={150}
-                //  style={"text-align: center;"} 
-
-                src="https://i.ibb.co/QjNzcNt/tabla-Ejericio2.png" />
-            </Row>
-
-          </div>
-
-          <div justify="center" >
-
-            
-            {contextHolder}
             <br />
-
-            <Row justify="center">
-
-              <Col span={4}>
-
-                <Item >
-                  <Select
-                    showSearch
-                    labelInValue
-                    name="o_id"
-
-                    // value={item && item.simbolo}
-                    style={{
-                      width: '100%',
-                    }}
-                    onChange={(e) => handleChangeSelectMaxiMiniEje2(e)}
-                  // onSearch={onSearch}
-                  >
-                    {
-                      InitialMaxiMini.map((item1) => (
-                        // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
-                        <Option key={item1.id} value={item1.key}> {item1.nameSimbolo}</Option>
-                      ))
-                    }
-                  </Select>
-                </Item>
-              </Col>
-
-
-            </Row>
-
-
-
-
-            <Row justify="center">
-              <Col span={4}>
-                <Item label="FUNCION OBJETIVO" >
-                  {/* <Input name='x' onChange={handleChange} /> */}
-                </Item>
-
-              </Col>
-              <Col span={5}>
-                <Item label="x" >
-                  <Input name='x' onChange={handleChangeGeneralEje2} />
-                </Item>
-
-              </Col>
-              <Col span={5}>
-
-                <Item label='y'>
-                  <Input name='y' onChange={handleChangeGeneralEje2} />
-                </Item>
-              </Col>
-
-            </Row>
-
-
-
-            {MatrizEje2.map(item => (
-
-              <>
-                <Row >
-                  <Col span={12}   >
-                    Restriccion {item.key + 1}
-
-                  </Col>
-
-                </Row>
-                <Row justify="center">
-                  <Col span={5} >
-                    <Item label="x" key={item.key}  >
-                      <Input name={item.key} key={item.key} title={'x'} values={item & item.x} onChange={(e) => handleChangeEje2(e, item)} />
-                    </Item>
-                  </Col>
-                  <Col span={5} key={item.key}>
-                    <Item label="+y" key={item.key}>
-                      <Input name={item.key} key={item.key} title={'y'} values={item & item.y} onChange={(e) => handleChangeEje2(e, item)} />
-                    </Item>
-                  </Col>
-                  <Col span={1}>
-                    <Item  >
-                      <Select
-                        showSearch
-                        labelInValue
-                        name="o_id"
-                        key={item.key}
-                        // value={item && item.simbolo}
-                        style={{
-                          width: '90%',
-                        }}
-                        onChange={(e) => handleChangeSelectRestriccionEje2(e, item)}
-                      // onSearch={onSearch}
-                      >
-                        {
-                          Simbolo.map((item1) => (
-                            // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
-                            <Option key={item1.id} title={item.key} value={item1.key}> {item1.nameSimbolo}</Option>
-                          ))
-                        }
-                      </Select>
-                    </Item>
-                  </Col>
-                  <Col span={2}>
-                    <Item >
-                      <Input name={item.key} key={item.key} title={'restriccion'} values={item & item.restriccion} onChange={(e) => handleChangeEje2(e, item)} />
-                    </Item>
-
-                  </Col>
-                </Row>
-              </>
-            ))}
-
-
-
-            <Button type="primary" onClick={onFinishCalculoEje2}>
-              Resolver
-            </Button>
-
-            {/* <Button type="primary" onClick={onAdd}>
-              Adicionar
-            </Button>
-
-            <Button type="primary" disabled={Matriz.length > 2 ? false : true} onClick={onRest}>
-              Quitar
-            </Button> */}
-
-            {/* </Form> */}
-            {/* <h1>Calculadoraaaa</h1> */}
-
-
             <br />
+         
+            {/* <div justify="center" >
 
 
-            <div hidden={MostarResulEje2} >
-
-              <Row
-
-                justify="center"
-              >
-                <Geogebra
-                  appletId="myApplet1"
-                  width={500}
-                  height={500}
-                  showToolBar={false}
-                  borderColor="#000000"
-                  showMenuBar={false}
-                  // showAlgebraInput={false}
-                  showAlgebraInput={false}
-                  errorDialogsActive={false}
-                  view="Algebra2"
-                  settings={{
-                    grid: false,
-                    axes: false,
-                    toolbar: false,
-                  }}
-                  // command="a=2;b=3;c=a+b;"
-                />
-              </Row>
-            </div>
-            <br />
-            <div hidden={MostarResulEje2}>
+              {contextHolder}
               <br />
-              <Table dataSource={TablaSolucionEje2} columns={columnsEjec2} />
 
-            </div>
+              <Row justify="center">
 
- <div ref={applet1Ref}></div>
-      <div ref={applet2Ref}></div>
+                <Col span={4}>
 
-          </div>
+                  <Item >
+                    <Select
+                      showSearch
+                      labelInValue
+                      name="o_id"
+
+                      // value={item && item.simbolo}
+                      style={{
+                        width: '100%',
+                      }}
+                      onChange={(e) => handleChangeSelectMaxiMiniEje2(e)}
+                    // onSearch={onSearch}
+                    >
+                      {
+                        InitialMaxiMini.map((item1) => (
+                          // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                          <Option key={item1.id} value={item1.key}> {item1.nameSimbolo}</Option>
+                        ))
+                      }
+                    </Select>
+                  </Item>
+                </Col>
+
+
+              </Row>
 
 
 
+
+              <Row justify="center">
+                <Col span={4}>
+                  <Item label="FUNCION OBJETIVO" >
+                   
+                  </Item>
+
+                </Col>
+                <Col span={5}>
+                  <Item label="x" >
+                    <Input name='x' onChange={handleChangeGeneralEje2} />
+                  </Item>
+
+                </Col>
+                <Col span={5}>
+
+                  <Item label='y'>
+                    <Input name='y' onChange={handleChangeGeneralEje2} />
+                  </Item>
+                </Col>
+
+              </Row>
+
+
+
+              {MatrizEje2.map(item => (
+
+                <>
+                  <Row >
+                    <Col span={12}   >
+                      Restriccion {item.key + 1}
+
+                    </Col>
+
+                  </Row>
+                  <Row justify="center">
+                    <Col span={5} >
+                      <Item label="x" key={item.key}  >
+                        <Input name={item.key} key={item.key} title={'x'} values={item & item.x} onChange={(e) => handleChangeEje2(e, item)} />
+                      </Item>
+                    </Col>
+                    <Col span={5} key={item.key}>
+                      <Item label="+y" key={item.key}>
+                        <Input name={item.key} key={item.key} title={'y'} values={item & item.y} onChange={(e) => handleChangeEje2(e, item)} />
+                      </Item>
+                    </Col>
+                    <Col span={1}>
+                      <Item  >
+                        <Select
+                          showSearch
+                          labelInValue
+                          name="o_id"
+                          key={item.key}
+                          // value={item && item.simbolo}
+                          style={{
+                            width: '90%',
+                          }}
+                          onChange={(e) => handleChangeSelectRestriccionEje2(e, item)}
+                        // onSearch={onSearch}
+                        >
+                          {
+                            Simbolo.map((item1) => (
+                              // <Option key={item.origin} value={item.nameSimbolo}> {item.nameSimbolo}</Option>
+                              <Option key={item1.id} title={item.key} value={item1.key}> {item1.nameSimbolo}</Option>
+                            ))
+                          }
+                        </Select>
+                      </Item>
+                    </Col>
+                    <Col span={2}>
+                      <Item >
+                        <Input name={item.key} key={item.key} title={'restriccion'} values={item & item.restriccion} onChange={(e) => handleChangeEje2(e, item)} />
+                      </Item>
+
+                    </Col>
+                  </Row>
+                </>
+              ))}
+
+
+
+              <Button type="primary" onClick={onFinishCalculoEje2}>
+                Resolver
+              </Button>
+
+
+
+
+              <br />
+
+
+              <div hidden={MostarResulEje2} >
+
+                <Row
+
+                  justify="center"
+                >
+                  <Geogebra
+                    appletId="myApplet1"
+                    width={500}
+                    height={500}
+                    showToolBar={false}
+                    borderColor="#000000"
+                    showMenuBar={false}
+                    // showAlgebraInput={false}
+                    showAlgebraInput={false}
+                    errorDialogsActive={false}
+                    view="Algebra2"
+                    settings={{
+                      grid: false,
+                      axes: false,
+                      toolbar: false,
+                    }}
+                  // command="a=2;b=3;c=a+b;"
+                  />
+                </Row>
+              </div>
+              <br />
+              <div hidden={MostarResulEje2}>
+                <br />
+                <Table dataSource={TablaSolucionEje2} columns={columnsEjec2} />
+
+              </div>
+
+          
+
+            </div> */}
+
+
+
+          </p>
 
         </p>
       </div>
