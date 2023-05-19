@@ -86,6 +86,7 @@ const Manual = () => {
         </p> */}
 
         <div className='parrafoList'>
+        <p className="parrafoList">
           <br />
           <p >El uso de nuestra calculadora JpGraph es muy sencillo e intuitivo, de todas formas, explicaremos su uso paso a paso:</p>
           <ul>
@@ -119,12 +120,12 @@ const Manual = () => {
             <li>* Dar clic <a href="https://youtu.be/eMug3FSoOZk">aquí</a>  para ver video explicativo</li>  <br />
 
           </ul>
-
+          </p >
         </div>
         <br />
         {/* <p>&gt;=</p> */}
         <div className='parrafoList'>
-          <p>
+          <p className='parrafoList'>
             <br />
             Resticcion N°1: x + y &lt;= 6 <br />
 
@@ -175,7 +176,7 @@ const Manual = () => {
         </div>
 
         <div className='parrafoList'>
-          <p>
+          <p className='parrafoList'>
             <br />
             En la tabla inferior se visualia todo los  vértices de la region, El "Estado" se clasifica en tres aquellos que esta dentro de la region factible y 
             aquellos que no lo estan por las retricciones, entre la region factible se selecciona el "Optimo"

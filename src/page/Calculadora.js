@@ -587,7 +587,7 @@ const Calculadora = () => {
 
 
 
-            <div justify="center" >
+            <div justify="center"  >
 
                 <br />
                 <br />

@@ -16,7 +16,6 @@
   line-height: 70px;
   letter-spacing: 0em;
   text-align: center;
-  
 }
 
 .parrafo {
@@ -40,8 +39,8 @@
 .parrafoList {
   background-color: #FFFFFF; 
 
-  margin-top: 30px;
-  margin: 50px 150px 50px 150px;
+  /* margin-top: 25px; */
+  margin: 50px 100px 50px 100px;
   border-radius: 40px;
   font-family: K2D;
   font-size: 28px;
@@ -49,6 +48,8 @@
   line-height: 35px;
   /* letter-spacing: 0em; */
   text-align: justify;
+  padding: auto;
+  /* margin: 0%; */
 /* margin-left: 20px; */
 }
 
